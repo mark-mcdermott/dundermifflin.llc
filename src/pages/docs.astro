@@ -72,8 +72,7 @@ const personFields = [
         <h2 id="what-is">What is the DM API?</h2>
         <p>
           A free, read-only JSON API of placeholder people. Every record is a Dunder Mifflin employee with a name, email,
-          job title, department, branch, bio and headshot, so a prototype can show a believable team instead of
-          <em>Lorem Ipsum</em> and gray circles. It currently holds {counts.people} people across {counts.departments}
+          job title, department, branch, bio and headshot, so a prototype can show a believable team instead of <em>Lorem Ipsum</em> and gray circles. It currently holds {counts.people} people across {counts.departments}
           departments and {counts.branches} branches, plus {counts.photos} group photos.
         </p>
         <ul>
@@ -101,8 +100,7 @@ const personFields = [
         <h2 id="people">People Endpoint</h2>
         <p>
           <code class="inline-code">GET /api/people</code> returns an array. Filters combine, and the total number of
-          matches (before <code class="inline-code">limit</code> and <code class="inline-code">offset</code>) is in the
-          <code class="inline-code">X-Total-Count</code> response header.
+          matches (before <code class="inline-code">limit</code> and <code class="inline-code">offset</code>) is in the <code class="inline-code">X-Total-Count</code> response header.
         </p>
         <table class="data-table">
           <thead><tr><th>Parameter</th><th>Meaning</th></tr></thead>
@@ -129,8 +127,7 @@ const personFields = [
 
         <h2 id="departments">Departments</h2>
         <p>
-          <code class="inline-code">GET /api/departments</code> lists every department with a headcount.
-          <code class="inline-code">GET /api/departments/&#123;slug&#125;</code> adds a <code class="inline-code">people</code> array.
+          <code class="inline-code">GET /api/departments</code> lists every department with a headcount. <code class="inline-code">GET /api/departments/&#123;slug&#125;</code> adds a <code class="inline-code">people</code> array.
         </p>
         <table class="data-table">
           <thead><tr><th>Slug</th><th>Department</th><th>People</th></tr></thead>
@@ -159,20 +156,14 @@ const personFields = [
         <h2 id="photos">Photos &amp; Avatars</h2>
         <p>
           Every person has an <code class="inline-code">avatar</code>: a square 250&times;250 headshot you can drop
-          straight into an <code class="inline-code">&lt;img&gt;</code>. If you would rather not parse JSON first,
-          <code class="inline-code">/api/avatars/&#123;slug&#125;</code> redirects to the same image, so
-          <code class="inline-code">&lt;img src="{origin}/api/avatars/pam-beesly"&gt;</code> just works.
+          straight into an <code class="inline-code">&lt;img&gt;</code>. If you would rather not parse JSON first, <code class="inline-code">/api/avatars/&#123;slug&#125;</code> redirects to the same image, so <code class="inline-code">&lt;img src="{origin}/api/avatars/pam-beesly"&gt;</code> just works.
         </p>
         <p>
-          Group photos live under <code class="inline-code">/api/photos</code>. Each record has an
-          <code class="inline-code">image</code> URL (800&times;500) and the people in the frame. Slugs are
-          <code class="inline-code">team-scranton</code>, <code class="inline-code">team-everyone</code>, and
-          <code class="inline-code">department-&#123;slug&#125;</code> for each department.
+          Group photos live under <code class="inline-code">/api/photos</code>. Each record has an <code class="inline-code">image</code> URL (800&times;500) and the people in the frame. Slugs are <code class="inline-code">team-scranton</code>, <code class="inline-code">team-everyone</code>, and <code class="inline-code">department-&#123;slug&#125;</code> for each department.
         </p>
         <p>
           Where a real photograph has not been added yet, the API serves a generated SVG stand-in with the person&rsquo;s
-          initials instead, at the same dimensions, so layouts never break. Append <code class="inline-code">.svg</code>
-          to an avatar or photo URL to request the stand-in explicitly.
+          initials instead, at the same dimensions, so layouts never break. Append <code class="inline-code">.svg</code> to an avatar or photo URL to request the stand-in explicitly.
         </p>
 
         <h2 id="responses">Example Responses</h2>
@@ -182,8 +173,7 @@ const personFields = [
         <CodeBlock label="404 Not Found" code={errorExample} />
         <p>
           Errors are JSON with an <code class="inline-code">error</code> and a <code class="inline-code">message</code>.
-          A bad filter value returns <code class="inline-code">400</code>; an unknown record returns
-          <code class="inline-code">404</code>.
+          A bad filter value returns <code class="inline-code">400</code>; an unknown record returns <code class="inline-code">404</code>.
         </p>
 
         <h2 id="caching">Caching</h2>
