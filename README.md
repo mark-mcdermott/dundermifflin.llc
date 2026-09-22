@@ -33,7 +33,8 @@ Astro 7 + Tailwind v4, deployed on Vercel. Pages are prerendered; `/api/*` endpo
 | `GET /api/photos`, `/api/photos/{slug}` | Group photos. `.jpg` redirects to the image, `.svg` is the placeholder |
 | `GET /api/avatars/{slug}` | Redirects to the headshot. `.svg` is the placeholder |
 
-Full reference at `/docs`.
+Full reference at `/docs`. The URL carries no version on purpose: every response sends `X-API-Version: 1`, fields are
+only ever added, ids and slugs are permanent, and a breaking change would ship under `/api/v2/`. See `/docs#versioning`.
 
 ## Images
 

@@ -176,6 +176,23 @@ const personFields = [
           A bad filter value returns <code class="inline-code">400</code>; an unknown record returns <code class="inline-code">404</code>.
         </p>
 
+        <h2 id="versioning">Versioning</h2>
+        <p>
+          This is version 1 of the API, and there is no version in the URL on purpose. Every response carries an
+          <code class="inline-code">X-API-Version: 1</code> header, and the <code class="inline-code">/api</code> index
+          reports the same value.
+        </p>
+        <p>The compatibility promise for <code class="inline-code">/api/*</code>:</p>
+        <ul>
+          <li>Fields are only ever added, never removed or renamed. Read what you need and ignore the rest.</li>
+          <li>Ids and slugs are permanent. A person may be added or temporarily absent, but nobody is ever renumbered.</li>
+          <li>New people, departments, branches, photos and endpoints can appear at any time.</li>
+          <li>
+            If a change ever has to break one of these rules, it will ship under <code class="inline-code">/api/v2/</code>
+            and <code class="inline-code">/api/*</code> will keep working exactly as it does today.
+          </li>
+        </ul>
+
         <h2 id="caching">Caching</h2>
         <p>
           Successful responses carry <code class="inline-code">Cache-Control: public, s-maxage=86400</code> and are

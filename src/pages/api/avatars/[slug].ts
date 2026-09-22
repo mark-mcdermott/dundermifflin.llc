@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro'
 import { findPerson } from '../../../data/people'
-import { notFound, originOf, preflight, svg } from '../../../lib/api'
+import { notFound, originOf, preflight, redirect, svg } from '../../../lib/api'
 import { avatarPath } from '../../../lib/images'
 import { avatarPlaceholder } from '../../../lib/placeholders'
 
@@ -21,7 +21,7 @@ export const GET: APIRoute = ({ params, request }) => {
   if (!person) return notFound(`No person "${slug}". See /api/people.`)
 
   if (extension === 'svg') return svg(avatarPlaceholder(`${person.firstName} ${person.lastName}`, person.slug))
-  return Response.redirect(`${originOf(request)}${avatarPath(person.slug)}`, 302)
+  return redirect(`${originOf(request)}${avatarPath(person.slug)}`)
 }
 
 export const OPTIONS: APIRoute = preflight

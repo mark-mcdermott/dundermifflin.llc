@@ -6,11 +6,14 @@ import { avatarPath, photoPath } from './images'
 
 export const API_VERSION = '1'
 
-const CORS_HEADERS = {
+/** On every API response, including redirects and preflight, so any client can see the CORS grant and the version. */
+const COMMON_HEADERS = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'GET, HEAD, OPTIONS',
   'Access-Control-Allow-Headers': 'Content-Type',
+  'Access-Control-Expose-Headers': 'X-API-Version, X-Total-Count',
   'Access-Control-Max-Age': '86400',
+  'X-API-Version': API_VERSION,
 }
 
 const CACHE_PUBLIC = 'public, max-age=300, s-maxage=86400, stale-while-revalidate=604800'
@@ -27,7 +30,7 @@ export function json(data: unknown, { status = 200, headers = {}, cache = 'publi
     headers: {
       'Content-Type': 'application/json; charset=utf-8',
       'Cache-Control': cache === 'public' ? CACHE_PUBLIC : 'no-store',
-      ...CORS_HEADERS,
+      ...COMMON_HEADERS,
       ...headers,
     },
   })
@@ -38,7 +41,7 @@ export function svg(markup: string): Response {
     headers: {
       'Content-Type': 'image/svg+xml; charset=utf-8',
       'Cache-Control': CACHE_PUBLIC,
-      ...CORS_HEADERS,
+      ...COMMON_HEADERS,
     },
   })
 }
@@ -51,7 +54,10 @@ export function badRequest(message: string): Response {
   return json({ error: 'Bad Request', message }, { status: 400, cache: 'none' })
 }
 
-export const preflight = () => new Response(null, { status: 204, headers: CORS_HEADERS })
+export const preflight = () => new Response(null, { status: 204, headers: COMMON_HEADERS })
+
+export const redirect = (location: string) =>
+  new Response(null, { status: 302, headers: { Location: location, 'Cache-Control': CACHE_PUBLIC, ...COMMON_HEADERS } })
 
 export const originOf = (request: Request) => new URL(request.url).origin
 
