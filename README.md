@@ -36,6 +36,19 @@ Astro 7 + Tailwind v4, deployed on Vercel. Pages are prerendered; `/api/*` endpo
 Full reference at `/docs`. The URL carries no version on purpose: every response sends `X-API-Version: 1`, fields are
 only ever added, ids and slugs are permanent, and a breaking change would ship under `/api/v2/`. See `/docs#versioning`.
 
+## Contact form
+
+`/contact` posts to `/api/contact`, which emails the message to `hello@dundermifflin.llc` through Resend. It needs one
+secret, `RESEND_API_KEY`, on the Vercel project:
+
+```bash
+vercel env add RESEND_API_KEY --sensitive   # pick Production, Preview and Development at the prompt, then paste the key
+vercel env pull                             # writes .env.local so `pnpm dev` can send too
+```
+
+Without the key the endpoint answers 503 and the page tells people to email directly. Spam protection is a hidden
+honeypot field, a same-origin check, and five messages per address per ten minutes.
+
 ## Images
 
 Headshots live in `public/avatars/<person-slug>.png` (250×250). Group photos go in `public/photos/<photo-slug>.jpg`

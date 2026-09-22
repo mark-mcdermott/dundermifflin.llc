@@ -775,3 +775,86 @@
     column-gap: 2rem;
   }
 }
+
+@layer components {
+  /* ---------- contact form ---------- */
+  .contact-form {
+    display: grid;
+    gap: 0.9rem;
+    max-width: 560px;
+  }
+
+  .form-field {
+    display: grid;
+    gap: 0.3rem;
+  }
+
+  .form-field label {
+    font-weight: bold;
+    color: var(--color-dm-heading);
+  }
+
+  .form-field input,
+  .form-field textarea {
+    width: 100%;
+    padding: 0.5rem 0.6rem;
+    border: 1px solid #a9b7c9;
+    border-radius: 3px;
+    background: #fff;
+    font: inherit;
+    color: var(--color-dm-text);
+    box-shadow: inset 0 1px 2px rgb(15 47 92 / 0.08);
+  }
+
+  .form-field input:focus,
+  .form-field textarea:focus {
+    outline: 2px solid var(--color-dm-button);
+    outline-offset: 1px;
+    border-color: var(--color-dm-button);
+  }
+
+  .form-field textarea {
+    resize: vertical;
+    min-height: 8rem;
+  }
+
+  .form-trap {
+    position: absolute;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  .form-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 1rem;
+  }
+
+  .btn:disabled {
+    opacity: 0.6;
+    cursor: wait;
+  }
+
+  .form-status {
+    margin: 0 0 1rem;
+    padding: 0.7rem 0.9rem;
+    border: 1px solid;
+    border-radius: 3px;
+    font-weight: bold;
+  }
+
+  .form-status[data-kind="ok"] {
+    background: #eef8ec;
+    border-color: #9fcf95;
+    color: #23581d;
+  }
+
+  .form-status[data-kind="error"] {
+    background: #fdeeee;
+    border-color: #e3a0a0;
+    color: #8a1f1f;
+  }
+}
