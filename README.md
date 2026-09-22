@@ -71,7 +71,6 @@ Headshots still needed, as `public/avatars/<slug>.png` at 250×250. Each of thes
 
 Other images, all optional until they exist (generated SVG stand-ins are served meanwhile):
 
-- [ ] `public/img/hero-dwight.jpg` — home-page hero, about 600×500, portrait crop
 - [ ] `public/img/world-map.png` — faded art behind the masthead, transparent PNG
 - [ ] `public/photos/<slug>.jpg` — group photos at 800×500: `team-scranton`, `team-everyone`, `department-<slug>`
 
