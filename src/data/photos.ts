@@ -1,39 +1,55 @@
-import { departments } from './departments'
-import { people } from './people'
+import { findPerson } from './people'
 
 export interface Photo {
   slug: string
   title: string
   description: string
-  people: string[]
+  /** Everyone in the frame, by slug, including people currently shelved without a headshot. */
+  pictured: string[]
+  /** Department this photo represents, if it is a department photo. */
+  department?: string
 }
 
-const scranton = people.filter((person) => person.branch === 'scranton')
-
-const featured: Photo[] = [
+/**
+ * Curated group photos. Add an entry only when a real image exists at public/photos/<slug>.jpg (landscape,
+ * about 1200px wide). The API lists only pictured people who are active in people.ts, so shelved people join their
+ * photo automatically when their headshot lands.
+ */
+export const photos: Photo[] = [
   {
     slug: 'team-scranton',
     title: 'The Scranton Branch',
-    description: 'The whole Scranton office, or at least everyone who showed up on photo day.',
-    people: scranton.map((person) => person.slug),
-  },
-  {
-    slug: 'team-everyone',
-    title: 'Dunder Mifflin, Company-Wide',
-    description: 'Every branch, corporate, and Sabre in one frame. Somebody blinked.',
-    people: people.map((person) => person.slug),
+    description: 'The Scranton office on photo day, in the supply room, because the conference room was booked.',
+    pictured: [
+      'michael-scott',
+      'dwight-schrute',
+      'jim-halpert',
+      'pam-beesly',
+      'ryan-howard',
+      'angela-martin',
+      'kevin-malone',
+      'oscar-martinez',
+      'stanley-hudson',
+      'phyllis-vance',
+      'meredith-palmer',
+      'creed-bratton',
+      'kelly-kapoor',
+      'toby-flenderson',
+      'jan-levinson',
+      'roy-anderson',
+    ],
   },
 ]
 
-const byDepartment: Photo[] = departments.map((department) => ({
-  slug: `department-${department.slug}`,
-  title: department.name,
-  description: `The ${department.name} team, Scranton branch and beyond.`,
-  people: people.filter((person) => person.department === department.slug).map((person) => person.slug),
-}))
-
-export const photos: Photo[] = [...featured, ...byDepartment]
-
 export function findPhoto(slug: string): Photo | undefined {
   return photos.find((photo) => photo.slug === slug)
+}
+
+export function findDepartmentPhoto(department: string): Photo | undefined {
+  return photos.find((photo) => photo.department === department)
+}
+
+/** Slugs of pictured people who are currently active. */
+export function picturedPeople(photo: Photo): string[] {
+  return photo.pictured.filter((slug) => findPerson(slug))
 }

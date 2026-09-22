@@ -30,7 +30,7 @@ Astro 7 + Tailwind v4, deployed on Vercel. Pages are prerendered; `/api/*` endpo
 | `GET /api/people/random?count=n` | Random people |
 | `GET /api/departments`, `/api/departments/{slug}` | Departments, with people on the detail |
 | `GET /api/branches`, `/api/branches/{slug}` | Branches, with people on the detail |
-| `GET /api/photos`, `/api/photos/{slug}` | Group photos. `.jpg` redirects to the image, `.svg` is the placeholder |
+| `GET /api/photos`, `/api/photos/{slug}` | Curated group photos with who is pictured. `.jpg` redirects to the image |
 | `GET /api/avatars/{slug}` | Redirects to the headshot. `.svg` is the placeholder |
 
 Full reference at `/docs`. The URL carries no version on purpose: every response sends `X-API-Version: 1`, fields are
@@ -52,7 +52,7 @@ honeypot field, a same-origin check, and five messages per address per ten minut
 ## Images
 
 Headshots live in `public/avatars/<person-slug>.png` (250×250). Group photos go in `public/photos/<photo-slug>.jpg`
-(800×500), the hero in `public/img/hero-dwight.jpg` and the masthead art in `public/img/world-map.png`. Restart the
+(landscape, about 1200px wide) with an entry in `src/data/photos.ts`, the hero in `public/img/hero-dwight.jpg` and the masthead art in `public/img/world-map.png`. Restart the
 dev server after adding files; anything missing falls back to a generated SVG placeholder.
 
 ## TODO
@@ -86,7 +86,7 @@ Headshots still needed, as `public/avatars/<slug>.png` at 250×250. Each of thes
 Other images, all optional until they exist (generated SVG stand-ins are served meanwhile):
 
 - [ ] `public/img/world-map.png` — faded art behind the masthead, transparent PNG
-- [ ] `public/photos/<slug>.jpg` — group photos at 800×500: `team-scranton`, `team-everyone`, `department-<slug>`
+- [ ] More group photos, landscape at about 1200px wide, in `public/photos/<slug>.jpg` with a matching entry in `src/data/photos.ts` naming who is pictured. Realistic candidates: `sales`, `accounting`, `warehouse`, `reception`. `team-scranton` is in.
 
 ## Not affiliated
 

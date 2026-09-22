@@ -13,11 +13,11 @@ import { siteOrigin } from '../lib/site'
 const origin = siteOrigin(Astro.site)
 const dwight = people.find((person) => person.slug === 'dwight-schrute')!
 const accounting = departments.find((department) => department.slug === 'accounting')!
-const accountingPhoto = photos.find((photo) => photo.slug === 'department-accounting')!
+const scrantonPhoto = photos.find((photo) => photo.slug === 'team-scranton')!
 
 const personExample = JSON.stringify(serializePerson(dwight, origin), null, 2)
 const departmentExample = JSON.stringify(serializeDepartment(accounting, origin), null, 2)
-const photoExample = JSON.stringify(serializePhoto(accountingPhoto, origin), null, 2)
+const photoExample = JSON.stringify(serializePhoto(scrantonPhoto, origin), null, 2)
 const errorExample = JSON.stringify({ error: 'Not Found', message: 'No person with id or slug "toby-flanderson". See /api/people.' }, null, 2)
 
 const fetchExample = `const response = await fetch('${origin}/api/people?department=sales&limit=3')
@@ -35,7 +35,7 @@ const endpoints = [
   ['GET /api/departments/{slug}', 'One department, including its people.'],
   ['GET /api/branches', 'All branches with addresses and headcounts.'],
   ['GET /api/branches/{slug}', 'One branch, including its people.'],
-  ['GET /api/photos', 'Team and department group photos.'],
+  ['GET /api/photos', 'Curated group photos, each listing exactly who is in the frame.'],
   ['GET /api/photos/{slug}', 'One photo record. Append .jpg for the image itself, .svg for the placeholder.'],
   ['GET /api/avatars/{slug}', 'Redirects to the best available headshot. Append .svg for the placeholder.'],
 ]
@@ -159,17 +159,22 @@ const personFields = [
           straight into an <code class="inline-code">&lt;img&gt;</code>. If you would rather not parse JSON first, <code class="inline-code">/api/avatars/&#123;slug&#125;</code> redirects to the same image, so <code class="inline-code">&lt;img src="{origin}/api/avatars/pam-beesly"&gt;</code> just works.
         </p>
         <p>
-          Group photos live under <code class="inline-code">/api/photos</code>. Each record has an <code class="inline-code">image</code> URL (800&times;500) and the people in the frame. Slugs are <code class="inline-code">team-scranton</code>, <code class="inline-code">team-everyone</code>, and <code class="inline-code">department-&#123;slug&#125;</code> for each department.
+          Group photos live under <code class="inline-code">/api/photos</code>. Each record has a landscape
+          <code class="inline-code">image</code> URL (about 1200px wide) and links to the people actually in the
+          frame. Photos are curated, not generated: a slug exists only when a real photograph does, starting with
+          <code class="inline-code">team-scranton</code>. A department&rsquo;s <code class="inline-code">photo</code>
+          field points at its group photo when one exists and is <code class="inline-code">null</code> otherwise.
         </p>
         <p>
-          Where a real photograph has not been added yet, the API serves a generated SVG stand-in with the person&rsquo;s
-          initials instead, at the same dimensions, so layouts never break. Append <code class="inline-code">.svg</code> to an avatar or photo URL to request the stand-in explicitly.
+          Where a person has no photograph yet, the API serves a generated SVG stand-in with their initials at the
+          same dimensions, so layouts never break. Append <code class="inline-code">.svg</code> to an avatar URL to
+          request the stand-in explicitly.
         </p>
 
         <h2 id="responses">Example Responses</h2>
         <CodeBlock label="GET /api/people/dwight-schrute" code={personExample} />
         <CodeBlock label="GET /api/departments (one item)" code={departmentExample} />
-        <CodeBlock label="GET /api/photos/department-accounting" code={photoExample} />
+        <CodeBlock label="GET /api/photos/team-scranton" code={photoExample} />
         <CodeBlock label="404 Not Found" code={errorExample} />
         <p>
           Errors are JSON with an <code class="inline-code">error</code> and a <code class="inline-code">message</code>.

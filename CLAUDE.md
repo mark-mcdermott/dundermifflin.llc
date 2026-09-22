@@ -26,7 +26,7 @@ Production origin is `https://dundermifflin.llc`; the API lives under `/api`.
 Drop files in and restart `pnpm dev`; the manifest is read once at startup.
 
 - `public/avatars/<slug>.png` — square headshots, 250×250. Slug is the person's `slug` in `people.ts` (e.g. `michael-scott.png`). jpg/webp also accepted. People without a file are commented out in `people.ts`; uncomment when it lands.
-- `public/photos/<slug>.jpg` — group photos, 800×500. Slugs: `team-scranton`, `team-everyone`, `department-<dept-slug>`.
+- `public/photos/<slug>.jpg` — group photos, landscape at about 1200px wide; any ratio, shown at natural aspect. Curated: each needs an entry in `src/data/photos.ts` listing who is pictured (shelved people included; the API filters to active). Set `department` on the entry to make it that department's photo.
 - `public/img/hero-dwight.jpg` — home-page hero (about 600×500, portrait crop, face upper-centre).
 - `public/img/world-map.png` — faded map behind the masthead; optional, transparent PNG.
 
