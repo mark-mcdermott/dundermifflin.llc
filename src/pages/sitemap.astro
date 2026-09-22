@@ -1,0 +1,82 @@
+---
+import Panel from '../components/Panel.astro'
+import Sidebar from '../components/Sidebar.astro'
+import Layout from '../layouts/Layout.astro'
+import { departments } from '../data/departments'
+import { people } from '../data/people'
+import { NAV } from '../lib/site'
+
+const pages = [
+  ...NAV.map((item) => ({ label: item.label, href: item.href })),
+  { label: 'Terms of Use', href: '/terms' },
+  { label: 'Privacy Policy', href: '/privacy' },
+  { label: 'Site Map', href: '/sitemap' },
+]
+
+const docSections = [
+  { label: 'What is the DM API?', href: '/docs#what-is' },
+  { label: 'Get Started', href: '/docs#get-started' },
+  { label: 'People Endpoint', href: '/docs#people' },
+  { label: 'Departments', href: '/docs#departments' },
+  { label: 'Branches', href: '/docs#branches' },
+  { label: 'Photos & Avatars', href: '/docs#photos' },
+  { label: 'Example Responses', href: '/docs#responses' },
+  { label: 'Versioning', href: '/docs#versioning' },
+  { label: 'Caching', href: '/docs#caching' },
+]
+
+const endpoints = [
+  '/api',
+  '/api/people',
+  '/api/people/1',
+  '/api/people/random',
+  '/api/departments',
+  '/api/departments/sales',
+  '/api/branches',
+  '/api/branches/scranton',
+  '/api/photos',
+  '/api/photos/team-scranton',
+  '/api/avatars/michael-scott',
+]
+
+const sortedPeople = [...people].sort((a, b) => a.lastName.localeCompare(b.lastName) || a.firstName.localeCompare(b.firstName))
+---
+
+<Layout title="Site Map" description="Every page, documentation section, person, department and endpoint on the Dunder Mifflin API site.">
+  <Sidebar />
+
+  <div class="stack">
+    <Panel title="Site Map">
+      <p class="mb-4">
+        Everything on the site, in one place. Search engines get the same thing as XML at
+        <a href="/sitemap-index.xml"><code class="inline-code">/sitemap-index.xml</code></a>.
+      </p>
+      <div class="sitemap">
+        <section>
+          <h3>Pages</h3>
+          <ul>{pages.map((page) => <li><a href={page.href}>{page.label}</a></li>)}</ul>
+        </section>
+        <section>
+          <h3>Documentation</h3>
+          <ul>{docSections.map((section) => <li><a href={section.href}>{section.label}</a></li>)}</ul>
+        </section>
+        <section>
+          <h3>API</h3>
+          <ul>{endpoints.map((endpoint) => <li><a href={endpoint}><code>{endpoint}</code></a></li>)}</ul>
+        </section>
+        <section>
+          <h3>Departments</h3>
+          <ul>{departments.map((department) => <li><a href={`/departments/${department.slug}`}>{department.name}</a></li>)}</ul>
+        </section>
+        <section class="sitemap-wide">
+          <h3>People ({people.length})</h3>
+          <ul class="sitemap-people">
+            {sortedPeople.map((person) => (
+              <li><a href={`/people/${person.slug}`}>{person.lastName}, {person.firstName}</a></li>
+            ))}
+          </ul>
+        </section>
+      </div>
+    </Panel>
+  </div>
+</Layout>

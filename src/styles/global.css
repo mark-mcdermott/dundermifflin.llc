@@ -736,3 +736,42 @@
     background: var(--color-dm-panel);
   }
 }
+
+@layer components {
+  /* ---------- site map ---------- */
+  .sitemap {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.25rem 2rem;
+  }
+
+  .sitemap h3 {
+    font-size: 1.1rem;
+    margin: 0 0 0.4rem;
+    padding-bottom: 0.25rem;
+    border-bottom: 1px solid var(--color-dm-rule);
+  }
+
+  .sitemap ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .sitemap li {
+    padding: 0.2rem 0;
+  }
+
+  .sitemap code {
+    font-size: 0.85rem;
+  }
+
+  .sitemap-wide {
+    grid-column: 1 / -1;
+  }
+
+  .sitemap-people {
+    columns: 3 160px;
+    column-gap: 2rem;
+  }
+}
