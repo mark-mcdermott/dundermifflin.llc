@@ -1,0 +1,53 @@
+---
+interface Tab {
+  id: string
+  label: string
+  code: string
+}
+
+interface Props {
+  tabs: Tab[]
+  class?: string
+}
+
+const { tabs, class: className } = Astro.props
+const group = `tabs-${Math.random().toString(36).slice(2, 8)}`
+---
+
+<div class:list={['code-tabs', className]} data-tabs>
+  <div class="tabs" role="tablist">
+    {tabs.map((tab, index) => (
+      <button
+        class="tab"
+        type="button"
+        role="tab"
+        id={`${group}-${tab.id}-tab`}
+        aria-controls={`${group}-${tab.id}`}
+        aria-selected={index === 0 ? 'true' : 'false'}
+      >
+        {tab.label}
+      </button>
+    ))}
+  </div>
+  {tabs.map((tab, index) => (
+    <div id={`${group}-${tab.id}`} role="tabpanel" aria-labelledby={`${group}-${tab.id}-tab`} hidden={index !== 0}>
+      <pre class="code rounded-t-none border-t-0"><code>{tab.code}</code></pre>
+    </div>
+  ))}
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-tabs]').forEach((root) => {
+    const tabs = Array.from(root.querySelectorAll<HTMLButtonElement>('[role="tab"]'))
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        tabs.forEach((other) => {
+          const selected = other === tab
+          other.setAttribute('aria-selected', String(selected))
+          const panel = root.querySelector<HTMLElement>(`#${CSS.escape(other.getAttribute('aria-controls') ?? '')}`)
+          if (panel) panel.hidden = !selected
+        })
+      })
+    })
+  })
+</script>

@@ -1,0 +1,42 @@
+---
+import Panel from '../../components/Panel.astro'
+import PersonCard from '../../components/PersonCard.astro'
+import Sidebar from '../../components/Sidebar.astro'
+import Layout from '../../layouts/Layout.astro'
+import { departments } from '../../data/departments'
+import { people } from '../../data/people'
+import { photoPath } from '../../lib/images'
+
+export function getStaticPaths() {
+  return departments.map((department) => ({ params: { slug: department.slug }, props: { department } }))
+}
+
+const { department } = Astro.props
+const members = people.filter((person) => person.department === department.slug)
+---
+
+<Layout title={department.name} description={`${department.description} ${members.length} people.`} active="people">
+  <Sidebar />
+
+  <div class="stack">
+    <Panel title={department.name}>
+      <div class="grid gap-5 md:grid-cols-[320px_minmax(0,1fr)]">
+        <img class="photo-frame" src={photoPath(`department-${department.slug}`)} alt={`${department.name} team photo`} width="800" height="500" />
+        <div>
+          <p>{department.description}</p>
+          <p class="mb-0 flex flex-wrap gap-4">
+            <a class="arrow-link" href={`/api/departments/${department.slug}`}>Department JSON</a>
+            <a class="arrow-link" href={`/api/people?department=${department.slug}`}>People JSON</a>
+            <a class="arrow-link" href="/people">All people</a>
+          </p>
+        </div>
+      </div>
+    </Panel>
+
+    <Panel title={`${members.length} ${members.length === 1 ? 'Person' : 'People'}`}>
+      <div class="people-grid">
+        {members.map((person) => <PersonCard person={person} />)}
+      </div>
+    </Panel>
+  </div>
+</Layout>

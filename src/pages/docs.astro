@@ -1,0 +1,199 @@
+---
+import CodeBlock from '../components/CodeBlock.astro'
+import Panel from '../components/Panel.astro'
+import Sidebar from '../components/Sidebar.astro'
+import Layout from '../layouts/Layout.astro'
+import { branches } from '../data/branches'
+import { departments } from '../data/departments'
+import { people } from '../data/people'
+import { photos } from '../data/photos'
+import { counts, MAX_LIMIT, serializeDepartment, serializePerson, serializePhoto } from '../lib/api'
+import { siteOrigin } from '../lib/site'
+
+const origin = siteOrigin(Astro.site)
+const dwight = people.find((person) => person.slug === 'dwight-schrute')!
+const accounting = departments.find((department) => department.slug === 'accounting')!
+const accountingPhoto = photos.find((photo) => photo.slug === 'department-accounting')!
+
+const personExample = JSON.stringify(serializePerson(dwight, origin), null, 2)
+const departmentExample = JSON.stringify(serializeDepartment(accounting, origin), null, 2)
+const photoExample = JSON.stringify(serializePhoto(accountingPhoto, origin), null, 2)
+const errorExample = JSON.stringify({ error: 'Not Found', message: 'No person with id or slug "toby-flanderson". See /api/people.' }, null, 2)
+
+const fetchExample = `const response = await fetch('${origin}/api/people?department=sales&limit=3')
+const sales = await response.json()
+
+console.log(sales[0].name)  // "Dwight Schrute"
+console.log(response.headers.get('X-Total-Count'))  // total matches, before limit`
+
+const endpoints = [
+  ['GET /api', 'Index: endpoint list and record counts.'],
+  ['GET /api/people', 'Everyone. Filter with department, branch, q; page with limit and offset.'],
+  ['GET /api/people/{id}', 'One person, by numeric id or slug (e.g. 2 or dwight-schrute).'],
+  ['GET /api/people/random', 'One random person. Add ?count=n for an array of n, plus the same filters as the list.'],
+  ['GET /api/departments', 'All departments with headcounts.'],
+  ['GET /api/departments/{slug}', 'One department, including its people.'],
+  ['GET /api/branches', 'All branches with addresses and headcounts.'],
+  ['GET /api/branches/{slug}', 'One branch, including its people.'],
+  ['GET /api/photos', 'Team and department group photos.'],
+  ['GET /api/photos/{slug}', 'One photo record. Append .jpg for the image itself, .svg for the placeholder.'],
+  ['GET /api/avatars/{slug}', 'Redirects to the best available headshot. Append .svg for the placeholder.'],
+]
+
+const peopleParams = [
+  ['department', 'Department slug, e.g. sales. See the list below.'],
+  ['branch', 'Branch slug, e.g. scranton.'],
+  ['q', 'Case-insensitive search across name and job title.'],
+  ['limit', `Page size, 0 to ${MAX_LIMIT}. Defaults to everything.`],
+  ['offset', 'Number of records to skip. Defaults to 0.'],
+]
+
+const personFields = [
+  ['id', 'number', 'Stable numeric id.'],
+  ['slug', 'string', 'URL-safe name, e.g. jim-halpert. Also accepted anywhere an id is.'],
+  ['name, firstName, lastName', 'string', 'Full and split names.'],
+  ['email', 'string', 'firstname.lastname@dundermifflin.llc. Not a real mailbox.'],
+  ['title', 'string', 'Job title.'],
+  ['department, departmentSlug', 'string', 'Department name and slug.'],
+  ['branch, branchSlug', 'string', 'Branch name and slug.'],
+  ['phone, extension', 'string', 'Branch switchboard number with the person’s extension.'],
+  ['bio', 'string', 'One or two sentences. Fictional, and written for this API.'],
+  ['avatar', 'string', 'Absolute URL of a square headshot (400×400).'],
+  ['url', 'string', 'Absolute URL of this record.'],
+]
+---
+
+<Layout title="Documentation" description="Endpoints, query parameters, response shapes and image conventions for the Dunder Mifflin placeholder-data API." active="docs">
+  <Sidebar />
+
+  <div class="stack">
+    <Panel title="Documentation">
+      <div class="prose">
+        <h2 id="what-is">What is the DM API?</h2>
+        <p>
+          A free, read-only JSON API of placeholder people. Every record is a Dunder Mifflin employee with a name, email,
+          job title, department, branch, bio and headshot, so a prototype can show a believable team instead of
+          <em>Lorem Ipsum</em> and gray circles. It currently holds {counts.people} people across {counts.departments}
+          departments and {counts.branches} branches, plus {counts.photos} group photos.
+        </p>
+        <ul>
+          <li>No API key, no sign-up, no rate limit. Please be reasonable.</li>
+          <li>CORS is open (<code class="inline-code">Access-Control-Allow-Origin: *</code>), so browsers can call it directly.</li>
+          <li>Responses are cached at the edge and served over HTTPS.</li>
+          <li>Everything is fictional. The email addresses do not deliver anywhere.</li>
+        </ul>
+
+        <h2 id="get-started">Get Started</h2>
+        <p>The base URL is <code class="inline-code">{origin}/api</code>. Every endpoint answers <code class="inline-code">GET</code> with JSON.</p>
+        <CodeBlock label="Terminal" code={`curl ${origin}/api/people/1`} />
+        <CodeBlock label="JavaScript" code={fetchExample} />
+
+        <h3>Endpoints</h3>
+        <table class="data-table">
+          <thead><tr><th>Endpoint</th><th>Returns</th></tr></thead>
+          <tbody>
+            {endpoints.map(([endpoint, description]) => (
+              <tr><td><code>{endpoint}</code></td><td>{description}</td></tr>
+            ))}
+          </tbody>
+        </table>
+
+        <h2 id="people">People Endpoint</h2>
+        <p>
+          <code class="inline-code">GET /api/people</code> returns an array. Filters combine, and the total number of
+          matches (before <code class="inline-code">limit</code> and <code class="inline-code">offset</code>) is in the
+          <code class="inline-code">X-Total-Count</code> response header.
+        </p>
+        <table class="data-table">
+          <thead><tr><th>Parameter</th><th>Meaning</th></tr></thead>
+          <tbody>
+            {peopleParams.map(([name, description]) => (
+              <tr><td><code>{name}</code></td><td>{description}</td></tr>
+            ))}
+          </tbody>
+        </table>
+        <CodeBlock
+          class="mt-3"
+          code={`# the sales floor, three at a time\n${origin}/api/people?department=sales&limit=3\n\n# page two\n${origin}/api/people?department=sales&limit=3&offset=3\n\n# search\n${origin}/api/people?q=manager\n\n# one person, by id or slug\n${origin}/api/people/2\n${origin}/api/people/dwight-schrute\n\n# random\n${origin}/api/people/random\n${origin}/api/people/random?count=4&branch=scranton`}
+        />
+
+        <h3>Person fields</h3>
+        <table class="data-table">
+          <thead><tr><th>Field</th><th>Type</th><th>Notes</th></tr></thead>
+          <tbody>
+            {personFields.map(([field, type, notes]) => (
+              <tr><td><code>{field}</code></td><td><code>{type}</code></td><td>{notes}</td></tr>
+            ))}
+          </tbody>
+        </table>
+
+        <h2 id="departments">Departments</h2>
+        <p>
+          <code class="inline-code">GET /api/departments</code> lists every department with a headcount.
+          <code class="inline-code">GET /api/departments/&#123;slug&#125;</code> adds a <code class="inline-code">people</code> array.
+        </p>
+        <table class="data-table">
+          <thead><tr><th>Slug</th><th>Department</th><th>People</th></tr></thead>
+          <tbody>
+            {departments.map((department) => (
+              <tr>
+                <td><code>{department.slug}</code></td>
+                <td><a href={`/departments/${department.slug}`}>{department.name}</a></td>
+                <td>{people.filter((person) => person.department === department.slug).length}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
+        <h3 id="branches">Branches</h3>
+        <p>Same shape as departments: <code class="inline-code">GET /api/branches</code> and <code class="inline-code">GET /api/branches/&#123;slug&#125;</code>.</p>
+        <table class="data-table">
+          <thead><tr><th>Slug</th><th>Branch</th><th>Location</th></tr></thead>
+          <tbody>
+            {branches.map((branch) => (
+              <tr><td><code>{branch.slug}</code></td><td>{branch.name}</td><td>{branch.city}, {branch.state}</td></tr>
+            ))}
+          </tbody>
+        </table>
+
+        <h2 id="photos">Photos &amp; Avatars</h2>
+        <p>
+          Every person has an <code class="inline-code">avatar</code>: a square 400&times;400 headshot you can drop
+          straight into an <code class="inline-code">&lt;img&gt;</code>. If you would rather not parse JSON first,
+          <code class="inline-code">/api/avatars/&#123;slug&#125;</code> redirects to the same image, so
+          <code class="inline-code">&lt;img src="{origin}/api/avatars/pam-beesly"&gt;</code> just works.
+        </p>
+        <p>
+          Group photos live under <code class="inline-code">/api/photos</code>. Each record has an
+          <code class="inline-code">image</code> URL (800&times;500) and the people in the frame. Slugs are
+          <code class="inline-code">team-scranton</code>, <code class="inline-code">team-everyone</code>, and
+          <code class="inline-code">department-&#123;slug&#125;</code> for each department.
+        </p>
+        <p>
+          Where a real photograph has not been added yet, the API serves a generated SVG stand-in with the person&rsquo;s
+          initials instead, at the same dimensions, so layouts never break. Append <code class="inline-code">.svg</code>
+          to an avatar or photo URL to request the stand-in explicitly.
+        </p>
+
+        <h2 id="responses">Example Responses</h2>
+        <CodeBlock label="GET /api/people/dwight-schrute" code={personExample} />
+        <CodeBlock label="GET /api/departments (one item)" code={departmentExample} />
+        <CodeBlock label="GET /api/photos/department-accounting" code={photoExample} />
+        <CodeBlock label="404 Not Found" code={errorExample} />
+        <p>
+          Errors are JSON with an <code class="inline-code">error</code> and a <code class="inline-code">message</code>.
+          A bad filter value returns <code class="inline-code">400</code>; an unknown record returns
+          <code class="inline-code">404</code>.
+        </p>
+
+        <h2 id="caching">Caching</h2>
+        <p>
+          Successful responses carry <code class="inline-code">Cache-Control: public, s-maxage=86400</code> and are
+          served from the edge. <code class="inline-code">/api/people/random</code> is never cached. Data changes rarely;
+          when it does, ids and slugs stay stable.
+        </p>
+        <p>Use of the API is subject to the <a href="/terms">Terms of Use</a>.</p>
+      </div>
+    </Panel>
+  </div>
+</Layout>

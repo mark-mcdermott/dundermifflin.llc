@@ -1,0 +1,22 @@
+---
+import { findDepartment } from '../data/departments'
+import type { Person } from '../data/people'
+import { avatarPath } from '../lib/images'
+
+interface Props {
+  person: Person
+}
+
+const { person } = Astro.props
+const name = `${person.firstName} ${person.lastName}`
+const department = findDepartment(person.department)?.name ?? person.department
+---
+
+<a class="person-card" href={`/people/${person.slug}`}>
+  <img src={avatarPath(person.slug)} alt={`Headshot of ${name}`} width="400" height="400" loading="lazy" />
+  <div>
+    <div class="person-name">{name}</div>
+    <div class="person-title">{person.title}</div>
+  </div>
+  <span class="badge self-start">{department}</span>
+</a>

@@ -1,0 +1,57 @@
+---
+import Panel from '../components/Panel.astro'
+import Sidebar from '../components/Sidebar.astro'
+import Layout from '../layouts/Layout.astro'
+---
+
+<Layout title="Use Cases" description="Where a placeholder-people API earns its keep: prototypes, seed data, design systems, demos and teaching." active="use-cases">
+  <Sidebar />
+
+  <div class="stack">
+    <Panel title="Use Cases">
+      <div class="prose">
+        <h2>Prototypes and mockups</h2>
+        <p>
+          A user list with real names, real titles and real faces reads completely differently from six rows of
+          <em>John Doe</em>. Point your prototype at <code class="inline-code">/api/people</code> and the screen
+          looks finished before the backend exists.
+        </p>
+
+        <h2>Seed data for development databases</h2>
+        <p>
+          Pull the roster once, map it onto your <code class="inline-code">users</code> table, and every developer on
+          the team gets the same believable data set. Ids and slugs are stable, so fixtures written today still work
+          next year.
+        </p>
+
+        <h2>Design systems and component libraries</h2>
+        <p>
+          Avatar groups, people pickers, org charts, comment threads: every component that needs a person now has a
+          consistent set of them. Headshots are square and uniform, and the placeholder fallback keeps the same
+          dimensions, so nothing jumps.
+        </p>
+
+        <h2>Demos and screenshots</h2>
+        <p>
+          Marketing screenshots and conference demos need a team that looks like a team. Use
+          <code class="inline-code">/api/departments/sales</code> and everyone in the frame belongs there.
+        </p>
+
+        <h2>Teaching and student projects</h2>
+        <p>
+          A first <code class="inline-code">fetch()</code> is more fun when the response has personality. No API key
+          means no sign-up flow standing between a student and their first working request, and open CORS means it
+          works from a plain HTML file.
+        </p>
+
+        <h2>Internal tools</h2>
+        <p>
+          Building a directory, an on-call rotation or an approvals screen? Develop against a fake company with
+          departments, branches and managers already in place, then swap the base URL for the real one.
+        </p>
+
+        <p>Ready when you are: <a href="/docs#get-started">get started</a> or <a href="/examples">copy an example</a>.</p>
+      </div>
+    </Panel>
+  </div>
+</Layout>

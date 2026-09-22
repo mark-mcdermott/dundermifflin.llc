@@ -1,0 +1,98 @@
+---
+import CodeTabs from '../components/CodeTabs.astro'
+import Panel from '../components/Panel.astro'
+import Sidebar from '../components/Sidebar.astro'
+import Layout from '../layouts/Layout.astro'
+import { departments } from '../data/departments'
+import { people } from '../data/people'
+import { serializePerson } from '../lib/api'
+import { avatarPath, hasSiteImage, photoPath } from '../lib/images'
+import { siteOrigin } from '../lib/site'
+
+const origin = siteOrigin(Astro.site)
+const michael = serializePerson(people[0]!, origin)
+const { id, name, email, title, department, bio, avatar } = michael
+const jsonExample = JSON.stringify({ id, name, email, title, department, bio, avatar }, null, 2)
+const curlExample = `curl ${origin}/api/people/1\n\n# a whole department\ncurl ${origin}/api/departments/sales\n\n# three random coworkers\ncurl "${origin}/api/people/random?count=3"`
+const featuredDepartments = departments.slice(0, 6)
+const heroImage = hasSiteImage('hero-dwight.jpg') ? '/img/hero-dwight.jpg' : avatarPath('dwight-schrute')
+---
+
+<Layout
+  title="Home"
+  description="A free placeholder-data API: names, emails, job titles, bios, headshots and team photos from the Scranton branch and beyond. No API key required."
+  active="home"
+  grid="home"
+>
+  <Sidebar />
+
+  <div class="stack">
+    <section class="hero">
+      <div class="hero-copy">
+        <h1>The Dunder Mifflin API</h1>
+        <p class="hero-sub">Real(ish) people. Fake data. 100% free.</p>
+        <p>
+          Need a placeholder team, user profile, or corporate roster for your next project? The Dunder Mifflin API
+          provides photos, names, emails, job titles, bios and more &mdash; all from the Scranton branch and beyond.
+        </p>
+        <a class="btn" href="/docs#get-started">Get Started</a>
+      </div>
+      <figure class="hero-figure">
+        <img src={heroImage} alt="Dwight Schrute at his desk" width="600" height="500" fetchpriority="high" />
+        <figcaption class="hero-quote">
+          <q>Identity theft is not a joke &mdash; but this API is.</q>
+          <cite>&mdash; Dwight K. Schrute<small>Assistant (to the) Regional Manager</small></cite>
+        </figcaption>
+      </figure>
+    </section>
+
+    <div class="grid gap-4 md:grid-cols-2">
+      <Panel title="Team Photos">
+        <a href="/docs#photos">
+          <img class="photo-frame mb-3" src={photoPath('team-scranton')} alt="The Scranton branch team photo" width="800" height="500" loading="lazy" />
+        </a>
+        <p>Need a group photo? We&rsquo;ve got you covered. Endpoints for individual headshots, team photos, and department rosters.</p>
+        <a class="arrow-link" href="/docs#photos">Explore Photos</a>
+      </Panel>
+
+      <Panel title="Departments">
+        <ul class="dept-list">
+          {featuredDepartments.map((item) => (
+            <li>
+              <a href={`/departments/${item.slug}`}>{item.name}</a>
+              <code>(/api/departments/{item.slug})</code>
+            </li>
+          ))}
+        </ul>
+        <a class="arrow-link" href="/docs#departments">View All Departments</a>
+      </Panel>
+    </div>
+  </div>
+
+  <div class="stack">
+    <Panel title="Quick Example">
+      <p class="code-label">GET /api/people/1</p>
+      <CodeTabs
+        tabs={[
+          { id: 'json', label: 'JSON', code: jsonExample },
+          { id: 'curl', label: 'cURL', code: curlExample },
+        ]}
+      />
+      <a class="arrow-link mt-3" href="/examples">View More Examples</a>
+    </Panel>
+
+    <Panel title="Use Cases">
+      <ul class="bullets">
+        <li>Populate your app with fake team members</li>
+        <li>Generate realistic corporate profiles</li>
+        <li>Use character photos for prototypes</li>
+        <li>Great for design mockups and demos</li>
+        <li>Totally free. No API key required.</li>
+      </ul>
+      <blockquote class="note m-0">
+        &ldquo;Perfect for internal tools, student projects, and world-class web applications.&rdquo;
+        <span class="note-by">&mdash; Michael Scott<small>Regional Manager</small></span>
+      </blockquote>
+    </Panel>
+  </div>
+</Layout>

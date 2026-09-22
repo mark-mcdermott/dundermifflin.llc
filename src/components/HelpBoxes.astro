@@ -1,0 +1,42 @@
+---
+import { avatarPath } from '../lib/images'
+---
+
+<section class="panel">
+  <div class="panel-body flex items-center gap-3">
+    <img
+      src={avatarPath('michael-scott')}
+      alt="Michael Scott, Regional Manager"
+      width="88"
+      height="88"
+      loading="lazy"
+      class="w-[88px] flex-none rounded-sm border border-dm-border object-cover"
+    />
+    <div>
+      <h2 class="text-[1.3rem] font-bold">Have Questions?</h2>
+      <p class="my-1 text-dm-muted">We&rsquo;re Here to Help.</p>
+      <a class="arrow-link" href="/contact">Contact Us</a>
+    </div>
+  </div>
+</section>
+
+<section class="panel">
+  <div class="panel-body flex items-center gap-3">
+    <svg
+      class="w-[84px] flex-none text-dm-blue"
+      viewBox="0 0 84 84"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2.5"
+      aria-hidden="true"
+    >
+      <circle cx="42" cy="42" r="36" fill="#eef3f9" />
+      <ellipse cx="42" cy="42" rx="16" ry="36" />
+      <path d="M6 42h72M12 24h60M12 60h60M42 6v72" />
+    </svg>
+    <div>
+      <h2 class="text-[1.25rem] font-bold leading-tight">Dunder Mifflin<br />Developers</h2>
+      <p class="my-1 text-[0.9rem] leading-snug text-dm-muted">Building a better web,<br />one placeholder at a time.</p>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,12 @@
+---
+interface Props {
+  code: string
+  label?: string
+  class?: string
+}
+
+const { code, label, class: className } = Astro.props
+---
+
+{label && <p class="code-label">{label}</p>}
+<pre class:list={['code', className]}><code>{code}</code></pre>

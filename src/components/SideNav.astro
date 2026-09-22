@@ -1,0 +1,11 @@
+---
+import { DOC_LINKS } from '../lib/site'
+---
+
+<nav class="panel" aria-label="Documentation">
+  <ul class="link-list">
+    {DOC_LINKS.map((link) => (
+      <li><a href={link.href}>{link.label}</a></li>
+    ))}
+  </ul>
+</nav>

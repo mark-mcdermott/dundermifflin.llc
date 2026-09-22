@@ -1,0 +1,47 @@
+---
+import Panel from '../components/Panel.astro'
+import Sidebar from '../components/Sidebar.astro'
+import Layout from '../layouts/Layout.astro'
+import { counts } from '../lib/api'
+---
+
+<Layout title="About" description="What the Dunder Mifflin API is, who it is for, and what it is not." active="about">
+  <Sidebar />
+
+  <div class="stack">
+    <Panel title="About the Dunder Mifflin API">
+      <div class="prose">
+        <p>
+          The Dunder Mifflin API is a free placeholder-data service for people building websites and apps. It answers the
+          question every prototype eventually asks: <em>who are these users supposed to be?</em> With names, emails,
+          job titles, departments, bios and headshots for {counts.people} employees of a mid-size regional paper company,
+          the answer is now one <code class="inline-code">fetch()</code> away.
+        </p>
+
+        <h2>Why a paper company?</h2>
+        <p>
+          Because a placeholder team should feel like a team. A regional manager, a sales floor, an accounting
+          department that argues about the party budget, a warehouse that quietly keeps everything moving: these are
+          the shapes real organisations take, and they are the shapes your interface needs to handle.
+        </p>
+
+        <h2>How it is built</h2>
+        <p>
+          The site and API are one small Astro project on Vercel. Pages are prerendered; the JSON endpoints run on
+          demand so they can honour filters and paging. There is no database: the roster is a versioned data file, which
+          is why ids and slugs never change out from under you.
+        </p>
+
+        <h2>What it is not</h2>
+        <p>
+          It is not affiliated with, endorsed by, or connected to NBCUniversal, Universal Television, or anyone involved
+          in producing <em>The Office</em>. Character names and likenesses belong to their respective owners. Every
+          email address, phone number, address and bio here is fictional and was written for this API. See the
+          <a href="/terms">Terms of Use</a>.
+        </p>
+
+        <p>Questions, corrections, or a photo that should not be here? <a href="/contact">Get in touch</a>.</p>
+      </div>
+    </Panel>
+  </div>
+</Layout>

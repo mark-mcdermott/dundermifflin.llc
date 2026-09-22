@@ -1,0 +1,168 @@
+---
+import CodeBlock from '../components/CodeBlock.astro'
+import Panel from '../components/Panel.astro'
+import Sidebar from '../components/Sidebar.astro'
+import Layout from '../layouts/Layout.astro'
+import { siteOrigin } from '../lib/site'
+
+const origin = siteOrigin(Astro.site)
+
+const js = `const response = await fetch('${origin}/api/people?department=accounting')
+const accounting = await response.json()
+
+for (const person of accounting) {
+  console.log(\`\${person.name} — \${person.title}\`)
+}`
+
+const curl = `# one person
+curl ${origin}/api/people/pam-beesly
+
+# a department, with its people
+curl ${origin}/api/departments/warehouse
+
+# four random coworkers from Scranton
+curl "${origin}/api/people/random?count=4&branch=scranton"
+
+# just the total, without the bodies
+curl -sI "${origin}/api/people?department=sales" | grep -i x-total-count`
+
+const python = `import requests
+
+people = requests.get("${origin}/api/people", params={"q": "manager"}).json()
+
+for person in people:
+    print(person["name"], "-", person["email"])`
+
+const react = `import { useEffect, useState } from 'react'
+
+export function TeamPreview() {
+  const [team, setTeam] = useState([])
+
+  useEffect(() => {
+    fetch('${origin}/api/people/random?count=4')
+      .then((response) => response.json())
+      .then(setTeam)
+  }, [])
+
+  return (
+    <ul>
+      {team.map((person) => (
+        <li key={person.id}>
+          <img src={person.avatar} alt="" width="40" height="40" />
+          {person.name} &mdash; {person.title}
+        </li>
+      ))}
+    </ul>
+  )
+}`
+
+const html = `<!-- headshot by slug, no JSON needed -->
+<img src="${origin}/api/avatars/jim-halpert" alt="Jim Halpert" width="120" height="120">
+
+<!-- group photo -->
+<img src="${origin}/api/photos/team-scranton.jpg" alt="The Scranton branch" width="400">`
+
+const seed = `// seed a dev database with a believable team
+const response = await fetch('${origin}/api/people?limit=20')
+const roster = await response.json()
+
+await db.insert(users).values(
+  roster.map((person) => ({
+    name: person.name,
+    email: person.email,
+    role: person.title,
+    avatarUrl: person.avatar,
+  })),
+)`
+---
+
+<Layout title="Examples" description="Copy-paste examples for calling the Dunder Mifflin API from JavaScript, cURL, Python, React and plain HTML." active="examples">
+  <Sidebar />
+
+  <div class="stack">
+    <Panel title="Try It">
+      <p>Live from the API: three random coworkers. Reload, or hit the button.</p>
+      <div class="people-grid mb-3" data-random-people aria-live="polite"></div>
+      <button class="btn" type="button" data-shuffle>Shuffle</button>
+    </Panel>
+
+    <Panel title="Examples">
+      <div class="prose">
+        <h2>JavaScript</h2>
+        <CodeBlock code={js} />
+        <h2>cURL</h2>
+        <CodeBlock code={curl} />
+        <h2>Python</h2>
+        <CodeBlock code={python} />
+        <h2>React</h2>
+        <CodeBlock code={react} />
+        <h2>Plain HTML</h2>
+        <CodeBlock code={html} />
+        <h2>Seeding a database</h2>
+        <CodeBlock code={seed} />
+        <p>Full endpoint and parameter reference in the <a href="/docs">documentation</a>.</p>
+      </div>
+    </Panel>
+  </div>
+</Layout>
+
+<script>
+  interface RandomPerson {
+    id: number
+    slug: string
+    name: string
+    title: string
+    department: string
+    avatar: string
+  }
+
+  const grid = document.querySelector<HTMLElement>('[data-random-people]')
+  const button = document.querySelector<HTMLButtonElement>('[data-shuffle]')
+
+  function card(person: RandomPerson): HTMLAnchorElement {
+    const link = document.createElement('a')
+    link.className = 'person-card'
+    link.href = `/people/${person.slug}`
+
+    const image = document.createElement('img')
+    image.src = person.avatar
+    image.alt = `Headshot of ${person.name}`
+    image.width = 400
+    image.height = 400
+
+    const name = document.createElement('div')
+    name.className = 'person-name'
+    name.textContent = person.name
+
+    const title = document.createElement('div')
+    title.className = 'person-title'
+    title.textContent = person.title
+
+    const badge = document.createElement('span')
+    badge.className = 'badge self-start'
+    badge.textContent = person.department
+
+    const text = document.createElement('div')
+    text.append(name, title)
+    link.append(image, text, badge)
+    return link
+  }
+
+  async function shuffle() {
+    if (!grid) return
+    grid.setAttribute('aria-busy', 'true')
+    try {
+      const response = await fetch('/api/people/random?count=3')
+      if (!response.ok) throw new Error(`HTTP ${response.status}`)
+      const team = (await response.json()) as RandomPerson[]
+      grid.replaceChildren(...team.map(card))
+    } catch (error) {
+      grid.textContent = `Could not reach the API (${error instanceof Error ? error.message : 'unknown error'}).`
+    } finally {
+      grid.removeAttribute('aria-busy')
+    }
+  }
+
+  button?.addEventListener('click', shuffle)
+  shuffle()
+</script>

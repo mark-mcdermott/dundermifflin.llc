@@ -1,0 +1,74 @@
+---
+import '../styles/global.css'
+import { hasSiteImage } from '../lib/images'
+import { NAV, SITE_NAME, SITE_TAGLINE, type NavKey } from '../lib/site'
+
+interface Props {
+  title: string
+  description: string
+  active?: NavKey
+  /** Home uses the three-column grid; everything else the two-column docs grid. */
+  grid?: 'home' | 'docs'
+}
+
+const { title, description, active, grid = 'docs' } = Astro.props
+const showMapArt = hasSiteImage('world-map.png')
+const fullTitle = title === 'Home' ? `${SITE_NAME} – API – ${SITE_TAGLINE}` : `${title} – ${SITE_NAME} API`
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+  </head>
+  <body>
+    <div class="site">
+      <header class="masthead">
+        {showMapArt && <div class="masthead-art" aria-hidden="true"></div>}
+        <a class="logo" href="/" aria-label={`${SITE_NAME} home`}>
+          <span class="logo-row">
+            <span class="logo-name">Dunder<br />Mifflin</span>
+            <span class="logo-inc" aria-hidden="true">Inc.</span>
+          </span>
+          <span class="logo-sub">Paper Company</span>
+        </a>
+        <div class="flex flex-wrap items-center justify-between gap-4">
+          <p class="tagline">People. Paper.<br />Placeholder Data.<sup>™</sup></p>
+          <p class="masthead-promo">A Free API<br />for a More Productive Web.</p>
+        </div>
+      </header>
+
+      <nav class="nav" aria-label="Primary">
+        {NAV.map((item) => (
+          <a href={item.href} aria-current={item.key === active ? 'page' : undefined}>{item.label}</a>
+        ))}
+      </nav>
+
+      <main class:list={['content', grid === 'home' ? 'content-home' : 'content-docs']}>
+        <slot />
+      </main>
+
+      <footer class="footer">
+        <div>
+          <div class="footer-links">
+            {NAV.map((item) => <a href={item.href}>{item.label}</a>)}
+          </div>
+          <p class="mt-2 mb-0">&copy; 2006 {SITE_NAME}. All rights reserved.</p>
+        </div>
+        <div class="footer-links self-end">
+          <a href="/privacy">Privacy Policy</a>
+          <a href="/terms">Terms of Use</a>
+          <a href="/sitemap-index.xml">Site Map</a>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>

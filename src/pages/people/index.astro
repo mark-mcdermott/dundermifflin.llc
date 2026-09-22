@@ -1,0 +1,29 @@
+---
+import Panel from '../../components/Panel.astro'
+import PersonCard from '../../components/PersonCard.astro'
+import Sidebar from '../../components/Sidebar.astro'
+import Layout from '../../layouts/Layout.astro'
+import { departments } from '../../data/departments'
+import { people } from '../../data/people'
+---
+
+<Layout title="People" description="Every person in the Dunder Mifflin API, with headshots, titles and departments." active="people">
+  <Sidebar />
+
+  <div class="stack">
+    <Panel title={`People (${people.length})`}>
+      <p class="mb-3">
+        The full roster. Click anyone for their record, or filter by department below. The same list is available as
+        JSON at <a href="/api/people"><code class="inline-code">/api/people</code></a>.
+      </p>
+      <p class="mb-4 flex flex-wrap gap-2">
+        {departments.map((department) => (
+          <a class="badge" href={`/departments/${department.slug}`}>{department.name}</a>
+        ))}
+      </p>
+      <div class="people-grid">
+        {people.map((person) => <PersonCard person={person} />)}
+      </div>
+    </Panel>
+  </div>
+</Layout>

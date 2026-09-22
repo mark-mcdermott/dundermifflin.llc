@@ -1,0 +1,43 @@
+---
+import Panel from '../components/Panel.astro'
+import Sidebar from '../components/Sidebar.astro'
+import Layout from '../layouts/Layout.astro'
+import { CONTACT_EMAIL } from '../lib/site'
+---
+
+<Layout title="Privacy Policy" description="What the Dunder Mifflin API site collects, which is very little." active="about">
+  <Sidebar />
+
+  <div class="stack">
+    <Panel title="Privacy Policy">
+      <div class="prose">
+        <p>This site and API collect as little as possible, because there is very little worth collecting.</p>
+
+        <h2>What we collect</h2>
+        <ul>
+          <li><strong>No accounts.</strong> There is nothing to sign up for and no API key to store.</li>
+          <li><strong>Server logs.</strong> Our hosting provider (Vercel) keeps standard request logs, including IP address, user agent and the URL requested, for a limited time, to run and secure the service.</li>
+          <li><strong>Privacy-friendly analytics.</strong> The website pages use Vercel Web Analytics, which counts page views without cookies and without tracking you across sites. The API endpoints are not instrumented.</li>
+        </ul>
+
+        <h2>What we do not do</h2>
+        <ul>
+          <li>Set tracking cookies.</li>
+          <li>Sell, share or trade any data about you.</li>
+          <li>Ask for your email, ever.</li>
+        </ul>
+
+        <h2>The people in the API</h2>
+        <p>
+          All records served by the API are fictional. No real person&rsquo;s email, phone number or personal details
+          appear here.
+        </p>
+
+        <h2>Contact</h2>
+        <p>Questions about this policy: <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.</p>
+
+        <p class="text-dm-muted">Last updated 22 September 2026.</p>
+      </div>
+    </Panel>
+  </div>
+</Layout>

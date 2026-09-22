@@ -1,0 +1,63 @@
+---
+import Panel from '../components/Panel.astro'
+import Sidebar from '../components/Sidebar.astro'
+import Layout from '../layouts/Layout.astro'
+import { CONTACT_EMAIL } from '../lib/site'
+---
+
+<Layout title="Terms of Use" description="Terms of use for the Dunder Mifflin placeholder-data API." active="docs">
+  <Sidebar />
+
+  <div class="stack">
+    <Panel title="Terms of Use">
+      <div class="prose">
+        <p>By using the Dunder Mifflin API (the &ldquo;Service&rdquo;) you agree to these terms.</p>
+
+        <h2>1. What you may do</h2>
+        <p>
+          Use the Service, free of charge, in personal, educational and commercial projects: prototypes, demos, tests,
+          seed data, screenshots, teaching material. Attribution is appreciated but not required.
+        </p>
+
+        <h2>2. What you may not do</h2>
+        <ul>
+          <li>Present the data as describing real people, or use it to deceive anyone.</li>
+          <li>Send traffic that would be unreasonable for a free service, such as scraping in a tight loop or using the Service as a production CDN for images.</li>
+          <li>Resell access to the Service or claim it as your own.</li>
+        </ul>
+
+        <h2>3. Fan project and intellectual property</h2>
+        <p>
+          The Service is an unofficial fan project. It is not affiliated with, endorsed by, or connected to
+          NBCUniversal, Universal Television, Deedle-Dee Productions, or anyone involved in producing
+          <em>The Office</em>. Character names and likenesses are the property of their respective owners and are used
+          here for placeholder and parody purposes. All emails, phone numbers, addresses and biographies are fictional
+          and were written for this Service.
+        </p>
+        <p>
+          If you hold rights in any material served here and would like it removed, email
+          <a href={`mailto:${CONTACT_EMAIL}?subject=Takedown%20request`}>{CONTACT_EMAIL}</a> and it will be taken down
+          promptly.
+        </p>
+
+        <h2>4. No warranty</h2>
+        <p>
+          The Service is provided &ldquo;as is&rdquo;, without warranty of any kind. It may change, go down, or go
+          away. Do not build anything that people depend on directly against it; copy the data you need into your own
+          project instead.
+        </p>
+
+        <h2>5. Liability</h2>
+        <p>
+          To the fullest extent permitted by law, the operator of the Service is not liable for any loss or damage
+          arising from its use.
+        </p>
+
+        <h2>6. Changes</h2>
+        <p>These terms may be updated from time to time. Continued use after a change means you accept it.</p>
+
+        <p class="text-dm-muted">Last updated 22 September 2026.</p>
+      </div>
+    </Panel>
+  </div>
+</Layout>

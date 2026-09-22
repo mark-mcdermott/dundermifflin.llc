@@ -1,0 +1,21 @@
+---
+import Panel from '../components/Panel.astro'
+import Sidebar from '../components/Sidebar.astro'
+import Layout from '../layouts/Layout.astro'
+---
+
+<Layout title="Page Not Found" description="That page is not in the building.">
+  <Sidebar />
+
+  <div class="stack">
+    <Panel title="404: Not in the Building">
+      <div class="prose">
+        <p>We checked the annex, the warehouse and Michael&rsquo;s office. Nothing.</p>
+        <p>
+          If you were looking for an API endpoint, the <a href="/docs">documentation</a> lists all of them. Otherwise,
+          <a href="/">the home page</a> is right through reception.
+        </p>
+      </div>
+    </Panel>
+  </div>
+</Layout>

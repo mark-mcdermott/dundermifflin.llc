@@ -1,0 +1,38 @@
+---
+import Panel from '../components/Panel.astro'
+import Sidebar from '../components/Sidebar.astro'
+import Layout from '../layouts/Layout.astro'
+import { CONTACT_EMAIL } from '../lib/site'
+---
+
+<Layout title="Contact" description="How to reach the people behind the Dunder Mifflin API." active="contact">
+  <Sidebar />
+
+  <div class="stack">
+    <Panel title="Contact Us">
+      <div class="prose">
+        <p>We&rsquo;re here to help. Well, one of us is. Email is the fastest way to reach a human.</p>
+        <table class="data-table max-w-[560px]">
+          <tbody>
+            <tr>
+              <th>General questions</th>
+              <td><a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a></td>
+            </tr>
+            <tr>
+              <th>Report a problem</th>
+              <td><a href={`mailto:${CONTACT_EMAIL}?subject=API%20problem`}>{CONTACT_EMAIL}</a> with the URL you called and what you got back</td>
+            </tr>
+            <tr>
+              <th>Takedown requests</th>
+              <td><a href={`mailto:${CONTACT_EMAIL}?subject=Takedown%20request`}>{CONTACT_EMAIL}</a>, and we will act on it promptly</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="mt-4">
+          Before writing in about an endpoint, check the <a href="/docs">documentation</a>. The answer is usually there,
+          which is more than can be said for the regional manager.
+        </p>
+      </div>
+    </Panel>
+  </div>
+</Layout>

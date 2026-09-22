@@ -1,0 +1,58 @@
+---
+import CodeBlock from '../../components/CodeBlock.astro'
+import Panel from '../../components/Panel.astro'
+import Sidebar from '../../components/Sidebar.astro'
+import Layout from '../../layouts/Layout.astro'
+import { people } from '../../data/people'
+import { serializePerson } from '../../lib/api'
+import { avatarPath } from '../../lib/images'
+import { siteOrigin } from '../../lib/site'
+
+export function getStaticPaths() {
+  return people.map((person) => ({ params: { slug: person.slug }, props: { person } }))
+}
+
+const { person } = Astro.props
+const record = serializePerson(person, siteOrigin(Astro.site))
+const json = JSON.stringify(record, null, 2)
+---
+
+<Layout title={record.name} description={`${record.name}, ${record.title} at Dunder Mifflin. ${record.bio}`} active="people">
+  <Sidebar />
+
+  <div class="stack">
+    <Panel title={record.name}>
+      <div class="grid gap-5 md:grid-cols-[220px_minmax(0,1fr)]">
+        <img
+          class="w-full max-w-[220px] rounded-sm border border-dm-border object-cover"
+          src={avatarPath(person.slug)}
+          alt={`Headshot of ${record.name}`}
+          width="400"
+          height="400"
+        />
+        <div>
+          <p class="mb-1 font-serif text-[1.2rem] italic text-dm-heading">{record.title}</p>
+          <p class="mb-3">{record.bio}</p>
+          <table class="data-table max-w-[520px]">
+            <tbody>
+              <tr><th>Department</th><td><a href={`/departments/${record.departmentSlug}`}>{record.department}</a></td></tr>
+              <tr><th>Branch</th><td>{record.branch}</td></tr>
+              <tr><th>Email</th><td><code>{record.email}</code></td></tr>
+              <tr><th>Phone</th><td>{record.phone}</td></tr>
+              <tr><th>ID / slug</th><td><code>{record.id}</code> &middot; <code>{record.slug}</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </Panel>
+
+    <Panel title="As JSON">
+      <CodeBlock label={`GET /api/people/${record.id}`} code={json} />
+      <p class="mt-3 mb-0 flex flex-wrap gap-4">
+        <a class="arrow-link" href={`/api/people/${record.id}`}>Open the record</a>
+        <a class="arrow-link" href={`/api/avatars/${record.slug}`}>Open the headshot</a>
+        <a class="arrow-link" href="/people">All people</a>
+      </p>
+    </Panel>
+  </div>
+</Layout>
