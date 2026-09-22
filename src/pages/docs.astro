@@ -6,18 +6,15 @@ import Layout from '../layouts/Layout.astro'
 import { branches } from '../data/branches'
 import { departments } from '../data/departments'
 import { people } from '../data/people'
-import { photos } from '../data/photos'
-import { counts, MAX_LIMIT, serializeDepartment, serializePerson, serializePhoto } from '../lib/api'
+import { counts, MAX_LIMIT, serializeDepartment, serializePerson } from '../lib/api'
 import { siteOrigin } from '../lib/site'
 
 const origin = siteOrigin(Astro.site)
 const dwight = people.find((person) => person.slug === 'dwight-schrute')!
 const accounting = departments.find((department) => department.slug === 'accounting')!
-const scrantonPhoto = photos.find((photo) => photo.slug === 'team-scranton')!
 
 const personExample = JSON.stringify(serializePerson(dwight, origin), null, 2)
 const departmentExample = JSON.stringify(serializeDepartment(accounting, origin), null, 2)
-const photoExample = JSON.stringify(serializePhoto(scrantonPhoto, origin), null, 2)
 const errorExample = JSON.stringify({ error: 'Not Found', message: 'No person with id or slug "toby-flanderson". See /api/people.' }, null, 2)
 
 const fetchExample = `const response = await fetch('${origin}/api/people?department=sales&limit=3')
@@ -35,8 +32,6 @@ const endpoints = [
   ['GET /api/departments/{slug}', 'One department, including its people.'],
   ['GET /api/branches', 'All branches with addresses and headcounts.'],
   ['GET /api/branches/{slug}', 'One branch, including its people.'],
-  ['GET /api/photos', 'Curated group photos, each listing exactly who is in the frame.'],
-  ['GET /api/photos/{slug}', 'One photo record. Append .jpg for the image itself, .svg for the placeholder.'],
   ['GET /api/avatars/{slug}', 'Redirects to the best available headshot. Append .svg for the placeholder.'],
 ]
 
@@ -73,7 +68,7 @@ const personFields = [
         <p>
           A free, read-only JSON API of placeholder people. Every record is a Dunder Mifflin employee with a name, email,
           job title, department, branch, bio and headshot, so a prototype can show a believable team instead of <em>Lorem Ipsum</em> and gray circles. It currently holds {counts.people} people across {counts.departments}
-          departments and {counts.branches} branches, plus {counts.photos} group photos.
+          departments and {counts.branches} branches.
         </p>
         <ul>
           <li>No API key, no sign-up, no rate limit. Please be reasonable.</li>
@@ -159,13 +154,6 @@ const personFields = [
           straight into an <code class="inline-code">&lt;img&gt;</code>. If you would rather not parse JSON first, <code class="inline-code">/api/avatars/&#123;slug&#125;</code> redirects to the same image, so <code class="inline-code">&lt;img src="{origin}/api/avatars/pam-beesly"&gt;</code> just works.
         </p>
         <p>
-          Group photos live under <code class="inline-code">/api/photos</code>. Each record has a landscape
-          <code class="inline-code">image</code> URL (about 1200px wide) and links to the people actually in the
-          frame. Photos are curated, not generated: a slug exists only when a real photograph does, starting with
-          <code class="inline-code">team-scranton</code>. A department&rsquo;s <code class="inline-code">photo</code>
-          field points at its group photo when one exists and is <code class="inline-code">null</code> otherwise.
-        </p>
-        <p>
           Where a person has no photograph yet, the API serves a generated SVG stand-in with their initials at the
           same dimensions, so layouts never break. Append <code class="inline-code">.svg</code> to an avatar URL to
           request the stand-in explicitly.
@@ -174,7 +162,6 @@ const personFields = [
         <h2 id="responses">Example Responses</h2>
         <CodeBlock label="GET /api/people/dwight-schrute" code={personExample} />
         <CodeBlock label="GET /api/departments (one item)" code={departmentExample} />
-        <CodeBlock label="GET /api/photos/team-scranton" code={photoExample} />
         <CodeBlock label="404 Not Found" code={errorExample} />
         <p>
           Errors are JSON with an <code class="inline-code">error</code> and a <code class="inline-code">message</code>.
@@ -191,7 +178,7 @@ const personFields = [
         <ul>
           <li>Fields are only ever added, never removed or renamed. Read what you need and ignore the rest.</li>
           <li>Ids and slugs are permanent. A person may be added or temporarily absent, but nobody is ever renumbered.</li>
-          <li>New people, departments, branches, photos and endpoints can appear at any time.</li>
+          <li>New people, departments, branches and endpoints can appear at any time.</li>
           <li>
             If a change ever has to break one of these rules, it will ship under <code class="inline-code">/api/v2/</code>
             and <code class="inline-code">/api/*</code> will keep working exactly as it does today.

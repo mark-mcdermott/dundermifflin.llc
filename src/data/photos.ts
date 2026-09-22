@@ -1,5 +1,3 @@
-import { findPerson } from './people'
-
 export interface Photo {
   slug: string
   title: string
@@ -11,9 +9,10 @@ export interface Photo {
 }
 
 /**
- * Curated group photos. Add an entry only when a real image exists at public/photos/<slug>.jpg (landscape,
- * about 1200px wide). The API lists only pictured people who are active in people.ts, so shelved people join their
- * photo automatically when their headshot lands.
+ * Curated group photos. SHELVED: nothing routes, renders or documents these yet. The images live in public/photos/
+ * (landscape, about 1200px wide) and each entry names everyone in the frame, shelved people included. The endpoints,
+ * docs and UI that exposed them were removed in the commit after 0a8432b; restore from `git show 0a8432b` once every
+ * photo has its pictured list.
  */
 export const photos: Photo[] = [
   {
@@ -40,16 +39,3 @@ export const photos: Photo[] = [
     ],
   },
 ]
-
-export function findPhoto(slug: string): Photo | undefined {
-  return photos.find((photo) => photo.slug === slug)
-}
-
-export function findDepartmentPhoto(department: string): Photo | undefined {
-  return photos.find((photo) => photo.department === department)
-}
-
-/** Slugs of pictured people who are currently active. */
-export function picturedPeople(photo: Photo): string[] {
-  return photo.pictured.filter((slug) => findPerson(slug))
-}

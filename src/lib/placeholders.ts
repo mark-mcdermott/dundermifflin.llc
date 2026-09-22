@@ -26,21 +26,3 @@ export function avatarPlaceholder(name: string, slug: string): string {
   <text x="200" y="372" text-anchor="middle" font-family="Impact, 'Arial Narrow', sans-serif" font-size="22" letter-spacing="4" fill="#ffffff" fill-opacity="0.8">DUNDER MIFFLIN</text>
 </svg>`
 }
-
-/** 4:3 group-photo stand-in with the photo's title. */
-export function photoPlaceholder(title: string, slug: string, count: number): string {
-  const color = PALETTE[hash(slug) % PALETTE.length]
-  const heads = Array.from({ length: Math.min(count, 12) }, (_, index) => {
-    const x = 70 + (index % 6) * 112
-    const y = index < 6 ? 200 : 360
-    return `<circle cx="${x}" cy="${y}" r="34" fill="#ffffff" fill-opacity="0.22"/><path d="M${x - 58} ${y + 120}c0-50 26-82 58-82s58 32 58 82z" fill="#ffffff" fill-opacity="0.22"/>`
-  }).join('')
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
-  <rect width="800" height="600" fill="${color}"/>
-  <rect width="800" height="600" fill="url(#g)"/>
-  <defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff" stop-opacity="0.12"/><stop offset="1" stop-color="#000000" stop-opacity="0.25"/></linearGradient></defs>
-  ${heads}
-  <text x="400" y="90" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="40" font-weight="bold" fill="#ffffff">${escapeXml(title)}</text>
-  <text x="400" y="565" text-anchor="middle" font-family="Impact, 'Arial Narrow', sans-serif" font-size="22" letter-spacing="4" fill="#ffffff" fill-opacity="0.8">DUNDER MIFFLIN PAPER COMPANY</text>
-</svg>`
-}

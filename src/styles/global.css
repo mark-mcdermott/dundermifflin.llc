@@ -717,6 +717,25 @@
     white-space: nowrap;
   }
 
+  .avatar-strip {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0.4rem;
+    padding: 0.5rem;
+    border: 1px solid var(--color-dm-border);
+    border-radius: 2px;
+    background: var(--color-dm-panel);
+  }
+
+  .avatar-strip img {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border: 1px solid var(--color-dm-border);
+    border-radius: 2px;
+    background: #fff;
+  }
+
   .bullets {
     margin: 0 0 0.9rem;
     padding-left: 1.2rem;
@@ -726,14 +745,6 @@
     margin-bottom: 0.3rem;
   }
 
-  .photo-frame {
-    display: block;
-    width: 100%;
-    height: auto;
-    border: 1px solid var(--color-dm-border);
-    border-radius: 2px;
-    background: var(--color-dm-panel);
-  }
 }
 
 @layer components {

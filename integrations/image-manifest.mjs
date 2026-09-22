@@ -16,7 +16,7 @@ function listImages(dir) {
 }
 
 /**
- * Exposes the files in public/avatars, public/photos and public/img as a virtual module,
+ * Exposes the files in public/avatars and public/img as a virtual module,
  * read once at dev/build start. Endpoints use it to decide whether a person
  * has a real headshot yet or should fall back to the generated placeholder.
  * Drop a file into either folder and restart `astro dev` to pick it up.
@@ -39,7 +39,6 @@ export default function imageManifest() {
                   if (id !== RESOLVED_ID) return undefined
                   const manifest = {
                     avatars: listImages(`${publicDir}/avatars`),
-                    photos: listImages(`${publicDir}/photos`),
                     img: listImages(`${publicDir}/img`),
                   }
                   return `export default ${JSON.stringify(manifest)}`

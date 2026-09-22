@@ -57,10 +57,7 @@ export function TeamPreview() {
 }`
 
 const html = `<!-- headshot by slug, no JSON needed -->
-<img src="${origin}/api/avatars/jim-halpert" alt="Jim Halpert" width="120" height="120">
-
-<!-- group photo -->
-<img src="${origin}/api/photos/team-scranton.jpg" alt="The Scranton branch" width="400">`
+<img src="${origin}/api/avatars/jim-halpert" alt="Jim Halpert" width="120" height="120">`
 
 const seed = `// seed a dev database with a believable team
 const response = await fetch('${origin}/api/people?limit=20')

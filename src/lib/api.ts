@@ -1,8 +1,7 @@
 import { branches, findBranch, type Branch } from '../data/branches'
 import { departments, findDepartment, type Department } from '../data/departments'
 import { people, type Person } from '../data/people'
-import { findDepartmentPhoto, photos, picturedPeople, type Photo } from '../data/photos'
-import { avatarPath, photoPath } from './images'
+import { avatarPath } from './images'
 
 export const API_VERSION = '1'
 
@@ -94,7 +93,6 @@ export function serializeDepartment(department: Department, origin: string, incl
     name: department.name,
     description: department.description,
     headcount: members.length,
-    photo: departmentPhotoUrl(department.slug, origin),
     url: `${origin}/api/departments/${department.slug}`,
     ...(includePeople ? { people: members.map((person) => serializePerson(person, origin)) } : {}),
   }
@@ -112,26 +110,6 @@ export function serializeBranch(branch: Branch, origin: string, includePeople = 
     headcount: members.length,
     url: `${origin}/api/branches/${branch.slug}`,
     ...(includePeople ? { people: members.map((person) => serializePerson(person, origin)) } : {}),
-  }
-}
-
-/** Absolute image URL of the curated photo for a department, or null when none exists yet. */
-function departmentPhotoUrl(department: string, origin: string): string | null {
-  const photo = findDepartmentPhoto(department)
-  return photo ? `${origin}${photoPath(photo.slug)}` : null
-}
-
-export function serializePhoto(photo: Photo, origin: string) {
-  const pictured = picturedPeople(photo)
-  return {
-    slug: photo.slug,
-    title: photo.title,
-    description: photo.description,
-    department: photo.department ?? null,
-    headcount: pictured.length,
-    people: pictured.map((slug) => `${origin}/api/people/${slug}`),
-    image: `${origin}${photoPath(photo.slug)}`,
-    url: `${origin}/api/photos/${photo.slug}`,
   }
 }
 
@@ -177,5 +155,4 @@ export const counts = {
   people: people.length,
   departments: departments.length,
   branches: branches.length,
-  photos: photos.length,
 }

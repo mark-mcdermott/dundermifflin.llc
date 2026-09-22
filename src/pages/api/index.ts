@@ -19,8 +19,6 @@ export const GET: APIRoute = ({ request }) => {
       department: `${origin}/api/departments/{slug}`,
       branches: `${origin}/api/branches`,
       branch: `${origin}/api/branches/{slug}`,
-      photos: `${origin}/api/photos`,
-      photo: `${origin}/api/photos/{slug}`,
       avatar: `${origin}/api/avatars/{slug}`,
     },
   })

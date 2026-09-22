@@ -5,8 +5,6 @@ import Sidebar from '../../components/Sidebar.astro'
 import Layout from '../../layouts/Layout.astro'
 import { departments } from '../../data/departments'
 import { people } from '../../data/people'
-import { findDepartmentPhoto } from '../../data/photos'
-import { photoPath } from '../../lib/images'
 
 export function getStaticPaths() {
   return departments.map((department) => ({ params: { slug: department.slug }, props: { department } }))
@@ -14,7 +12,6 @@ export function getStaticPaths() {
 
 const { department } = Astro.props
 const members = people.filter((person) => person.department === department.slug)
-const photo = findDepartmentPhoto(department.slug)
 ---
 
 <Layout title={department.name} description={`${department.description} ${members.length} people.`} active="people">
@@ -22,17 +19,12 @@ const photo = findDepartmentPhoto(department.slug)
 
   <div class="stack">
     <Panel title={department.name}>
-      <div class:list={['grid gap-5', photo && 'md:grid-cols-[320px_minmax(0,1fr)]']}>
-        {photo && <img class="photo-frame" src={photoPath(photo.slug)} alt={photo.title} width="1200" height="900" />}
-        <div>
-          <p>{department.description}</p>
-          <p class="mb-0 flex flex-wrap gap-4">
-            <a class="arrow-link" href={`/api/departments/${department.slug}`}>Department JSON</a>
-            <a class="arrow-link" href={`/api/people?department=${department.slug}`}>People JSON</a>
-            <a class="arrow-link" href="/people">All people</a>
-          </p>
-        </div>
-      </div>
+      <p>{department.description}</p>
+      <p class="mb-0 flex flex-wrap gap-4">
+        <a class="arrow-link" href={`/api/departments/${department.slug}`}>Department JSON</a>
+        <a class="arrow-link" href={`/api/people?department=${department.slug}`}>People JSON</a>
+        <a class="arrow-link" href="/people">All people</a>
+      </p>
     </Panel>
 
     <Panel title={`${members.length} ${members.length === 1 ? 'Person' : 'People'}`}>

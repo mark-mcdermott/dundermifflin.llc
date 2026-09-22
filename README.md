@@ -2,7 +2,7 @@
 
 People. Paper. Placeholder Data.
 
-A free, no-key JSON API of placeholder people (names, emails, titles, departments, bios, headshots, group photos)
+A free, no-key JSON API of placeholder people (names, emails, titles, departments, bios, headshots)
 from a fictional regional paper company, plus the retro corporate website that documents it.
 
 ```bash
@@ -30,7 +30,6 @@ Astro 7 + Tailwind v4, deployed on Vercel. Pages are prerendered; `/api/*` endpo
 | `GET /api/people/random?count=n` | Random people |
 | `GET /api/departments`, `/api/departments/{slug}` | Departments, with people on the detail |
 | `GET /api/branches`, `/api/branches/{slug}` | Branches, with people on the detail |
-| `GET /api/photos`, `/api/photos/{slug}` | Curated group photos with who is pictured. `.jpg` redirects to the image |
 | `GET /api/avatars/{slug}` | Redirects to the headshot. `.svg` is the placeholder |
 
 Full reference at `/docs`. The URL carries no version on purpose: every response sends `X-API-Version: 1`, fields are
@@ -51,8 +50,8 @@ honeypot field, a same-origin check, and five messages per address per ten minut
 
 ## Images
 
-Headshots live in `public/avatars/<person-slug>.png` (250×250). Group photos go in `public/photos/<photo-slug>.jpg`
-(landscape, about 1200px wide) with an entry in `src/data/photos.ts`, the hero in `public/img/hero-dwight.jpg` and the masthead art in `public/img/world-map.png`. Restart the
+Headshots live in `public/avatars/<person-slug>.png` (250×250), the hero in `public/img/hero-dwight.jpg` and the
+masthead art in `public/img/world-map.png`. Restart the
 dev server after adding files; anything missing falls back to a generated SVG placeholder.
 
 ## TODO
@@ -86,7 +85,7 @@ Headshots still needed, as `public/avatars/<slug>.png` at 250×250. Each of thes
 Other images, all optional until they exist (generated SVG stand-ins are served meanwhile):
 
 - [ ] `public/img/world-map.png` — faded art behind the masthead, transparent PNG
-- [ ] More group photos, landscape at about 1200px wide, in `public/photos/<slug>.jpg` with a matching entry in `src/data/photos.ts` naming who is pictured. Realistic candidates: `sales`, `accounting`, `warehouse`, `reception`. `team-scranton` is in.
+- [ ] Group photos are shelved. `src/data/photos.ts` keeps the curated list and `public/photos/team-scranton.jpg` stays put; the endpoints, docs and UI were removed in the commit after `0a8432b` and can be restored with `git show 0a8432b -- <path>` once each photo has its pictured list.
 
 ## Not affiliated
 

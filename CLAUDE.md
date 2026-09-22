@@ -7,26 +7,26 @@ Commit: gitmoji · Automerge: off
 ## What this is
 
 A free placeholder-data API and its marketing site, styled like a 2006 corporate website. People, departments,
-branches and group photos from a fictional paper company, served as JSON with open CORS and no API key.
+and branches from a fictional paper company, served as JSON with open CORS and no API key.
 Production origin is `https://dundermifflin.llc`; the API lives under `/api`.
 
 ## Layout
 
-- `src/data/` — the roster. `people.ts`, `departments.ts`, `branches.ts`, `photos.ts`. Ids and slugs are stable; append, never renumber.
+- `src/data/` — the roster. `people.ts`, `departments.ts`, `branches.ts`. Ids and slugs are stable; append, never renumber. `photos.ts` is shelved data that nothing exposes yet.
 - `src/lib/api.ts` — serializers, response helpers (`json`, `svg`, `notFound`, `badRequest`, `preflight`), filters. Every endpoint goes through these so CORS and cache headers stay uniform.
-- `src/lib/images.ts` — resolves a person or photo to a real file in `public/` or the generated SVG placeholder.
+- `src/lib/images.ts` — resolves a person to a real file in `public/` or the generated SVG placeholder.
 - `src/lib/placeholders.ts` — the SVG stand-ins.
 - `src/pages/api/**` — endpoints. Each exports `prerender = false`, a `GET`, and `OPTIONS = preflight`. The exception is `contact.ts`: POST only, same-origin only, no CORS, sends through Resend.
 - `src/pages/*.astro` — prerendered site pages. `src/layouts/Layout.astro` owns the masthead, nav and footer.
 - `src/styles/global.css` — Tailwind v4 theme tokens plus the retro component classes (`.panel`, `.nav`, `.hero`, `.link-list`, ...). Prefer those classes over ad-hoc utilities so the chrome stays consistent.
-- `integrations/image-manifest.mjs` — reads `public/avatars`, `public/photos`, `public/img` at startup into `virtual:image-manifest`.
+- `integrations/image-manifest.mjs` — reads `public/avatars` and `public/img` at startup into `virtual:image-manifest`.
 
 ## Images
 
 Drop files in and restart `pnpm dev`; the manifest is read once at startup.
 
 - `public/avatars/<slug>.png` — square headshots, 250×250. Slug is the person's `slug` in `people.ts` (e.g. `michael-scott.png`). jpg/webp also accepted. People without a file are commented out in `people.ts`; uncomment when it lands.
-- `public/photos/<slug>.jpg` — group photos, landscape at about 1200px wide; any ratio, shown at natural aspect. Curated: each needs an entry in `src/data/photos.ts` listing who is pictured (shelved people included; the API filters to active). Set `department` on the entry to make it that department's photo.
+- `public/photos/<slug>.jpg` — group photos, shelved for now; see the README TODO for how to bring them back.
 - `public/img/hero-dwight.jpg` — home-page hero (about 600×500, portrait crop, face upper-centre).
 - `public/img/world-map.png` — faded map behind the masthead; optional, transparent PNG.
 
@@ -52,4 +52,4 @@ Smoke-test the API after changes: `curl -s localhost:4321/api/people/1`, `.../ap
 
 ## Setup TODO
 
-- [ ] Remaining headshots, hero, masthead art and group photos: tracked in `README.md` → TODO.
+- [ ] Remaining headshots, masthead art and the shelved group photos: tracked in `README.md` → TODO.
