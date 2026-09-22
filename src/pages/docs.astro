@@ -58,7 +58,7 @@ const personFields = [
   ['branch, branchSlug', 'string', 'Branch name and slug.'],
   ['phone, extension', 'string', 'Branch switchboard number with the person’s extension.'],
   ['bio', 'string', 'One or two sentences. Fictional, and written for this API.'],
-  ['avatar', 'string', 'Absolute URL of a square headshot (400×400).'],
+  ['avatar', 'string', 'Absolute URL of a square headshot (250×250).'],
   ['url', 'string', 'Absolute URL of this record.'],
 ]
 ---
@@ -158,7 +158,7 @@ const personFields = [
 
         <h2 id="photos">Photos &amp; Avatars</h2>
         <p>
-          Every person has an <code class="inline-code">avatar</code>: a square 400&times;400 headshot you can drop
+          Every person has an <code class="inline-code">avatar</code>: a square 250&times;250 headshot you can drop
           straight into an <code class="inline-code">&lt;img&gt;</code>. If you would rather not parse JSON first,
           <code class="inline-code">/api/avatars/&#123;slug&#125;</code> redirects to the same image, so
           <code class="inline-code">&lt;img src="{origin}/api/avatars/pam-beesly"&gt;</code> just works.

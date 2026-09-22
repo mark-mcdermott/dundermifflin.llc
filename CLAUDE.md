@@ -25,12 +25,13 @@ Production origin is `https://dundermifflin.llc`; the API lives under `/api`.
 
 Drop files in and restart `pnpm dev`; the manifest is read once at startup.
 
-- `public/avatars/<slug>.jpg` — square headshots, 400×400. Slug is the person's `slug` in `people.ts` (e.g. `michael-scott.jpg`). Also accepts png/webp.
+- `public/avatars/<slug>.png` — square headshots, 250×250. Slug is the person's `slug` in `people.ts` (e.g. `michael-scott.png`). jpg/webp also accepted. People without a file are commented out in `people.ts`; uncomment when it lands.
 - `public/photos/<slug>.jpg` — group photos, 800×500. Slugs: `team-scranton`, `team-everyone`, `department-<dept-slug>`.
 - `public/img/hero-dwight.jpg` — home-page hero (about 600×500, portrait crop, face upper-centre).
 - `public/img/world-map.png` — faded map behind the masthead; optional, transparent PNG.
 
 Anything missing falls back to a generated SVG at the same dimensions, so the site never shows a broken image.
+Live at https://dundermifflin.llc (apex primary, www redirects); Vercel deploys from `main`.
 
 ## Verify loop
 
@@ -45,6 +46,5 @@ Smoke-test the API after changes: `curl -s localhost:4321/api/people/1`, `.../ap
 
 ## Setup TODO
 
-- [ ] Add the real images (see **Images**). Everything else already works with placeholders.
-- [ ] `vercel link` and attach the `dundermifflin.llc` domain to the project.
+- [ ] Remaining headshots, hero, masthead art and group photos: tracked in `README.md` → TODO.
 - [ ] Decide whether `hello@dundermifflin.llc` (Contact page) should be a real mailbox or forward somewhere.

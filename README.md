@@ -37,9 +37,43 @@ Full reference at `/docs`.
 
 ## Images
 
-Put real files in `public/avatars/<person-slug>.jpg` (400×400), `public/photos/<photo-slug>.jpg` (800×500),
-`public/img/hero-dwight.jpg` and `public/img/world-map.png`, then restart the dev server. Missing files fall back
-to generated SVG placeholders.
+Headshots live in `public/avatars/<person-slug>.png` (250×250). Group photos go in `public/photos/<photo-slug>.jpg`
+(800×500), the hero in `public/img/hero-dwight.jpg` and the masthead art in `public/img/world-map.png`. Restart the
+dev server after adding files; anything missing falls back to a generated SVG placeholder.
+
+## TODO
+
+Headshots still needed, as `public/avatars/<slug>.png` at 250×250. Each of these people is commented out in
+`src/data/people.ts` until their file lands; uncomment the line to bring them back.
+
+- [ ] `roy-anderson` — Roy Anderson, Warehouse Worker
+- [ ] `holly-flax` — Holly Flax, Human Resources Representative
+- [ ] `jan-levinson` — Jan Levinson, Vice President, Northeast Sales
+- [ ] `david-wallace` — David Wallace, Chief Financial Officer
+- [ ] `karen-filippelli` — Karen Filippelli, Regional Manager
+- [ ] `josh-porter` — Josh Porter, Regional Manager
+- [ ] `todd-packer` — Todd Packer, Traveling Sales Representative
+- [ ] `charles-miner` — Charles Miner, Vice President, Northeast
+- [ ] `gabe-lewis` — Gabe Lewis, Coordinating Director of Emerging Regions
+- [ ] `jo-bennett` — Jo Bennett, Chief Executive Officer, Sabre
+- [ ] `robert-california` — Robert California, Chief Executive Officer
+- [ ] `nellie-bertram` — Nellie Bertram, Special Projects Manager
+- [ ] `deangelo-vickers` — Deangelo Vickers, Regional Manager
+- [ ] `clark-green` — Clark Green, Customer Service Representative
+- [ ] `pete-miller` — Pete Miller, Customer Service Representative
+- [ ] `cathy-simms` — Cathy Simms, Temp
+- [ ] `val-johnson` — Val Johnson, Warehouse Foreman
+- [ ] `nate-nickerson` — Nate Nickerson, Warehouse Worker
+- [ ] `madge-madsen` — Madge Madsen, Warehouse Worker
+- [ ] `lonny-collins` — Lonny Collins, Warehouse Worker
+- [ ] `jerry-dicanio` — Jerry DiCanio, Warehouse Worker
+- [ ] `jordan-garfield` — Jordan Garfield, Executive Assistant
+
+Other images, all optional until they exist (generated SVG stand-ins are served meanwhile):
+
+- [ ] `public/img/hero-dwight.jpg` — home-page hero, about 600×500, portrait crop
+- [ ] `public/img/world-map.png` — faded art behind the masthead, transparent PNG
+- [ ] `public/photos/<slug>.jpg` — group photos at 800×500: `team-scranton`, `team-everyone`, `department-<slug>`
 
 ## Not affiliated
 

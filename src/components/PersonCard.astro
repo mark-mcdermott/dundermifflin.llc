@@ -13,7 +13,7 @@ const department = findDepartment(person.department)?.name ?? person.department
 ---
 
 <a class="person-card" href={`/people/${person.slug}`}>
-  <img src={avatarPath(person.slug)} alt={`Headshot of ${name}`} width="400" height="400" loading="lazy" />
+  <img src={avatarPath(person.slug)} alt={`Headshot of ${name}`} width="250" height="250" loading="lazy" />
   <div>
     <div class="person-name">{name}</div>
     <div class="person-title">{person.title}</div>

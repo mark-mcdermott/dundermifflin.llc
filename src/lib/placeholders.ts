@@ -18,7 +18,7 @@ export function avatarPlaceholder(name: string, slug: string): string {
     .slice(0, 2)
     .toUpperCase()
   const color = PALETTE[hash(slug) % PALETTE.length]
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="250" height="250" viewBox="0 0 400 400">
   <rect width="400" height="400" fill="${color}"/>
   <circle cx="200" cy="150" r="70" fill="#ffffff" fill-opacity="0.18"/>
   <path d="M60 400c0-90 62-150 140-150s140 60 140 150z" fill="#ffffff" fill-opacity="0.18"/>
