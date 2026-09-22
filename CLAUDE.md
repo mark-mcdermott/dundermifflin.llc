@@ -53,4 +53,3 @@ Smoke-test the API after changes: `curl -s localhost:4321/api/people/1`, `.../ap
 ## Setup TODO
 
 - [ ] Remaining headshots, hero, masthead art and group photos: tracked in `README.md` → TODO.
-- [ ] `RESEND_API_KEY` on Vercel (all environments) and `vercel env pull` locally. Until then the contact form answers 503.
