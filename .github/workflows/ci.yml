@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+# A new push to the same branch supersedes the run in flight.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: check · build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      # Must precede setup-node, which needs pnpm on PATH to resolve its cache.
+      # The version comes from packageManager, so it lives in one place.
+      - uses: pnpm/action-setup@v4
+        with:
+          package_json_file: package.json
+
+      # 24, the lowest LTS satisfying engines (>=22.12.0) that matches what
+      # @astrojs/vercel 11 targets - not a guess, and not newer than production.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      # Separate steps so a red run names which gate failed.
+      - name: Typecheck
+        run: pnpm check
+
+      - name: Build
+        run: pnpm build
