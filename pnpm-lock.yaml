@@ -21,8 +21,8 @@ importers:
         specifier: ^7.3.3
         version: 7.3.3(@emnapi/core@1.11.3)(@emnapi/runtime@1.11.3)(@types/node@26.6.2)(@vercel/functions@3.9.9)(jiti@2.7.0)(yaml@2.9.1)
       resend:
-        specifier: ^6.28.1
-        version: 6.28.1
+        specifier: ^6.31.0
+        version: 6.31.0
     devDependencies:
       '@astrojs/check':
         specifier: ^0.9.10
@@ -1794,8 +1794,8 @@ packages:
     resolution: {integrity: sha512-Xf0nWe6RseziFMu+Ap9biiUbmplq6S9/p+7w7YXP/JBHhrUDDUhwa+vANyubuqfZWTveU//DYVGsDG7RKL/vEw==}
     engines: {node: '>=0.10.0'}
 
-  resend@6.28.1:
-    resolution: {integrity: sha512-5VWOcDiWKBt0NWYKXwzY9WJ+LbpQLYw9M6j1DDJYPk7TloHfWOJyaY4EFKoR/KPL0N4m5yO3o96iDoYOX7v+GA==}
+  resend@6.31.0:
+    resolution: {integrity: sha512-E9Ekrm888UKKCIY61UmDkgRVd2Q9OwihimgStrWJ4olNsjFYM25F4X8QbzrLuZz6W9iS7eLMS7MLbRBNqnlI/Q==}
     engines: {node: '>=20'}
     peerDependencies:
       '@react-email/render': '*'
@@ -3871,7 +3871,7 @@ snapshots:
 
   require-from-string@2.0.2: {}
 
-  resend@6.28.1:
+  resend@6.31.0:
     dependencies:
       postal-mime: 2.7.6
       standardwebhooks: 1.1.1
