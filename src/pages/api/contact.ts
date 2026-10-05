@@ -1,7 +1,7 @@
 import type { APIContext, APIRoute } from 'astro'
 import { RESEND_API_KEY } from 'astro:env/server'
 import { Resend } from 'resend'
-import { CONTACT_EMAIL } from '../../lib/site'
+import { NOTIFY_EMAIL } from '../../lib/site'
 
 export const prerender = false
 
@@ -102,8 +102,9 @@ export const POST: APIRoute = async (context) => {
 
   const resend = new Resend(RESEND_API_KEY)
   const { error } = await resend.emails.send({
-    from: `Dunder Mifflin Contact <contact@${CONTACT_EMAIL.split('@')[1]}>`,
-    to: [CONTACT_EMAIL],
+    // Resend's shared sender, not a typo — see NOTIFY_EMAIL in lib/site.ts.
+    from: 'Dunder Mifflin Contact <onboarding@resend.dev>',
+    to: [NOTIFY_EMAIL],
     replyTo: submission.email,
     subject: `[dundermifflin.llc] Message from ${submission.name}`,
     text: [
