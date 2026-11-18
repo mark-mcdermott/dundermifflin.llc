@@ -16,17 +16,17 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       # Must precede setup-node, which needs pnpm on PATH to resolve its cache.
       # The version comes from packageManager, so it lives in one place.
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v6
         with:
           package_json_file: package.json
 
       # 24, the lowest LTS satisfying engines (>=22.12.0) that matches what
       # @astrojs/vercel 11 targets - not a guess, and not newer than production.
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: 24
           cache: pnpm
