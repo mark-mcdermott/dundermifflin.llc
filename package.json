@@ -13,10 +13,10 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/sitemap": "^3.7.5",
+    "@astrojs/sitemap": "^3.7.6",
     "@astrojs/vercel": "^11.0.22",
     "@vercel/analytics": "^2.0.1",
-    "astro": "^7.4.12",
+    "astro": "^7.4.13",
     "resend": "^6.38.1"
   },
   "allowScripts": {
